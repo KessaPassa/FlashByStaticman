@@ -8,6 +8,7 @@ public class Battle : MonoBehaviour
     public AudioSource SEBox;           //PlayOneShot用の空箱
     private float waitTime;             //ノックバック時間
 
+
     void Start()
     {
         waitTime = 0f; //一番最初は待機時間なし
