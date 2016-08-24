@@ -33,7 +33,7 @@ public class BattleRush : MonoBehaviour
             }
 
             //中攻撃
-            if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.S))
             {
                 waitTime = 0.4f; //ノックバック時間
                 enemyStatus.HP -= playerStatus.normal; //中ダメージ
@@ -42,7 +42,7 @@ public class BattleRush : MonoBehaviour
             }
 
             //弱攻撃
-            if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D))
             {
                 waitTime = 0.2f; //ノックバック時間
                 enemyStatus.HP -= playerStatus.weak; //弱ダメージ
