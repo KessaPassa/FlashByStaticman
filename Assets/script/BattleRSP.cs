@@ -2,47 +2,39 @@
 using System.Collections;
 
 public class BattleRSP : MonoBehaviour {
-    public Sprite rock;                 //グー
-    public Sprite scissors;             //チョキ
-    public Sprite paper;                //パー
-    public GameObject originHand1;      //位置情報獲得のためのインスタンス元その1
-    public GameObject originHand2;      //位置情報獲得のためのインスタンス元その2
-    public GameObject originHand3;      //位置情報獲得のためのインスタンス元その3
-    private GameObject firstHand;       //手前の手
-    private GameObject secondHand;      //真ん中の手
-    private GameObject thirdHand;       //最後尾の手
-    public PlayerStatus playerStatus;   //プレーヤーのステータス
-    public EnemyStatus enemyStatus;     //敵のステータス
-    public AudioSource SEBox;           //PlayOneShot用の空箱
+    public Sprite rock;                                     //グー
+    public Sprite scissors;                                 //チョキ
+    public Sprite paper;                                    //パー
+    public GameObject[] originHand;                         //インスタンスの元となるオブジェクト
+    private GameObject[] appearHand = new GameObject[3];    //画面上に出ている手
+    public PlayerStatus playerStatus;                       //プレーヤーのステータス
+    public EnemyStatus enemyStatus;                         //敵のステータス
+    public AudioSource SEBox;                               //PlayOneShot用の空箱
+    private bool isHiddenOn = false;
 
 
-    enum RSP
-    {
-        None = -1,
-        Rock,
-        Scissors,
-        Paper,
-    };
+    //enum RSP
+    //{
+    //    None = -1,
+    //    Rock,
+    //    Scissors,
+    //    Paper,
+    //};
 
 
     void Start () {
-        firstHand = Instantiate(originHand1, originHand1.transform.position, Quaternion.identity) as GameObject; //インスタンス生成
-        firstHand.GetComponent<SpriteRenderer>().sprite = GetNextHand(); //手の絵を入れる
-        originHand1.GetComponent<Renderer>().enabled = false; //見えなくする    
-
-        secondHand = Instantiate(originHand2, originHand2.transform.position, Quaternion.identity) as GameObject;
-        secondHand.GetComponent<SpriteRenderer>().sprite = GetNextHand();
-        originHand2.GetComponent<Renderer>().enabled = false;
-
-        thirdHand = Instantiate(originHand3, originHand3.transform.position, Quaternion.identity) as GameObject;
-        thirdHand.GetComponent<SpriteRenderer>().sprite = GetNextHand();
-        originHand3.GetComponent<Renderer>().enabled = false;
+        for (int i = 0; i < originHand.Length; i++)
+        {
+            appearHand[i] = Instantiate(originHand[i], originHand[i].transform.position, Quaternion.identity) as GameObject; //インスタンス生成
+            appearHand[i].GetComponent<SpriteRenderer>().sprite = GetNextHand(); //手の絵を入れる
+            originHand[i].GetComponent<Renderer>().enabled = false; //見えなくする
+        }
     }
 
 
     void Update()
     {
-        string enemyHand = firstHand.GetComponent<SpriteRenderer>().sprite.name; //firstHandの現在の手の名前を取得
+        string enemyHand = appearHand[0].GetComponent<SpriteRenderer>().sprite.name; //firstHandの現在の手の名前を取得
 
         //グー
         if (Input.GetKeyDown(KeyCode.A))
@@ -62,9 +54,8 @@ public class BattleRSP : MonoBehaviour {
 
             MoveHand();
         }
-
         //チョキ
-        if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             if (enemyHand == "Rock")
             {
@@ -81,9 +72,8 @@ public class BattleRSP : MonoBehaviour {
 
             MoveHand();
         }
-
         //パー
-        if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.D))
         {
             if (enemyHand == "Rock")
             {
@@ -99,6 +89,25 @@ public class BattleRSP : MonoBehaviour {
             }
 
             MoveHand();
+        }
+
+        //スペースを押したらHiddenを実行する(プロトタイプ)
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isHiddenOn = !isHiddenOn; //ボタン1つでオン・オフ
+        }
+        //trueなら1つめ以外を隠す
+        if (isHiddenOn)
+        {
+            appearHand[0].GetComponent<Renderer>().enabled = true;
+            appearHand[1].GetComponent<Renderer>().enabled = false;
+            appearHand[2].GetComponent<Renderer>().enabled = false;
+        }
+        //falseなら通常通り、3つ表示する
+        else
+        {
+            appearHand[1].GetComponent<Renderer>().enabled = true;
+            appearHand[2].GetComponent<Renderer>().enabled = true;
         }
     }
 
@@ -106,18 +115,18 @@ public class BattleRSP : MonoBehaviour {
     void MoveHand()
     {
         //手前の手を削除し、1つずつ前にずらす
-        Destroy(firstHand);
-        firstHand = secondHand;
-        secondHand = thirdHand;
+        Destroy(appearHand[0]);
+        appearHand[0] = appearHand[1];
+        appearHand[1] = appearHand[2];
 
         //位置を1つずつずらす
-        firstHand.transform.position = originHand1.transform.position;
-        secondHand.transform.position = originHand2.transform.position;
+        appearHand[0].transform.position = originHand[0].transform.position;
+        appearHand[1].transform.position = originHand[1].transform.position;
 
         //ずらして空になったthirdHandにインスタンスを生成
-        thirdHand = Instantiate(originHand3, originHand3.transform.position, Quaternion.identity) as GameObject;
-        thirdHand.GetComponent<SpriteRenderer>().sprite = GetNextHand();
-        thirdHand.GetComponent<Renderer>().enabled = true;
+        appearHand[2] = Instantiate(originHand[2], originHand[2].transform.position, Quaternion.identity) as GameObject;
+        appearHand[2].GetComponent<SpriteRenderer>().sprite = GetNextHand();
+        //thirdHand.GetComponent<Renderer>().enabled = true;
     }
 
     //ランダムでじゃんけんの手を決める
