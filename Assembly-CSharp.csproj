@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\script\BattleRSP.cs" />
+     <Compile Include="Assets\script\BattleRSP2.cs" />
      <Compile Include="Assets\script\BattleRush.cs" />
      <Compile Include="Assets\script\Enemy1commandB.cs" />
      <Compile Include="Assets\script\EnemyStatus.cs" />

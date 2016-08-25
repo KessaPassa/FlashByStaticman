@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BattleRSP : MonoBehaviour
+public class BattleRSP2 : MonoBehaviour
 {
     public Sprite rock;                                     //グー
     public Sprite scissors;                                 //チョキ
     public Sprite paper;                                    //パー
     public GameObject[] originHand;                         //インスタンスの元となるオブジェクト
-    private GameObject[] appearHand = new GameObject[3];    //画面上に出ている手
+    private GameObject[] appearHand = new GameObject[5];    //画面上に出ている手
     public PlayerStatus playerStatus;                       //プレーヤーのステータス
     public EnemyStatus enemyStatus;                         //敵のステータス
     public AudioSource SEBox;                               //PlayOneShot用の空箱
@@ -102,33 +102,66 @@ public class BattleRSP : MonoBehaviour
         if (isHiddenOn)
         {
             appearHand[0].GetComponent<Renderer>().enabled = true;
-            appearHand[1].GetComponent<Renderer>().enabled = false;
-            appearHand[2].GetComponent<Renderer>().enabled = false;
+            for (int i = 1; i < appearHand.Length; i++)
+            {
+                appearHand[i].GetComponent<Renderer>().enabled = false;
+            }
         }
         //falseなら通常通り、3つ表示する
         else
         {
-            appearHand[1].GetComponent<Renderer>().enabled = true;
-            appearHand[2].GetComponent<Renderer>().enabled = true;
+            for (int i = 0; i < appearHand.Length; i++)
+            {
+                appearHand[i].GetComponent<Renderer>().enabled = true;
+            }
         }
     }
 
-    //firstHandを消し、1つずつずらし、thirdHandに手を追加する
+    //手前の手を消し、1つずつずらし、最後尾に手を追加する
     void MoveHand()
     {
-        //手前の手を削除し、1つずつ前にずらす
-        Destroy(appearHand[0]);
-        appearHand[0] = appearHand[1];
-        appearHand[1] = appearHand[2];
+        Destroy(appearHand[0]); //手前の手を削除
 
-        //位置を1つずつずらす
-        appearHand[0].transform.position = originHand[0].transform.position;
-        appearHand[1].transform.position = originHand[1].transform.position;
+        //手前の手には配列の1か3を入れる
+        while (true)
+        {
+            int random = Random.Range(1, 4);
+            if (random == 1 || random == 3)
+            {
+                appearHand[0] = appearHand[random];
+                if(random == 1)
+                {
+                    Destroy(appearHand[3]);
+                }
+                else
+                {
+                    Destroy(appearHand[1]);
+                }
+                break;
+            }
+        }
 
-        //ずらして空になったthirdHandにインスタンスを生成
+        //1つずつ前にずらす
+        for (int i = 1; i < appearHand.Length; i++)
+        {
+            if (i == 2 || i == 4)
+            {
+                continue;
+            }
+            appearHand[i] = appearHand[i + 1];
+        }
+
+        //ずらして空になった[2]と[4]にインスタンスを生成
         appearHand[2] = Instantiate(originHand[2], originHand[2].transform.position, Quaternion.identity) as GameObject;
         appearHand[2].GetComponent<SpriteRenderer>().sprite = GetNextHand();
-        //thirdHand.GetComponent<Renderer>().enabled = true;
+        appearHand[4] = Instantiate(originHand[4], originHand[2].transform.position, Quaternion.identity) as GameObject;
+        appearHand[4].GetComponent<SpriteRenderer>().sprite = GetNextHand();
+
+        //位置を1つずつずら
+        for (int i = 0; i < appearHand.Length; i++)
+        {
+            appearHand[i].transform.position = originHand[i].transform.position;
+        }
     }
 
     //ランダムでじゃんけんの手を決める
