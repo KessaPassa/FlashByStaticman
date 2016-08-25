@@ -14,15 +14,6 @@ public class BattleRSP2 : MonoBehaviour
     private bool isHiddenOn = false;
 
 
-    //enum RSP
-    //{
-    //    None = -1,
-    //    Rock,
-    //    Scissors,
-    //    Paper,
-    //};
-
-
     void Start()
     {
         for (int i = 0; i < originHand.Length; i++)

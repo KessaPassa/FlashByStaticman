@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/RSP.unity
+- path: Assets/RSP2.unity
   isLoaded: 1
   isActive: 1
