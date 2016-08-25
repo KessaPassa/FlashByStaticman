@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Rush.unity
+- path: Assets/RSP.unity
   isLoaded: 1
   isActive: 1
