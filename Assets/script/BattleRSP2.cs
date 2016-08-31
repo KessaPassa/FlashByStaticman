@@ -11,7 +11,7 @@ public class BattleRSP2 : MonoBehaviour
     public PlayerStatus playerStatus;                       //プレーヤーのステータス
     public EnemyStatus enemyStatus;                         //敵のステータス
     public AudioSource SEBox;                               //PlayOneShot用の空箱
-    private bool isHiddenOn = false;
+    private bool isHiddenOn = false;                        //手を隠しているか否か
 
 
     void Start()
