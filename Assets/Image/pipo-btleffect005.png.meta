@@ -1,0 +1,563 @@
+fileFormatVersion: 2
+guid: ddd8567fe6f8d8b409321927774d4f0f
+timeCreated: 1473436169
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: pipo-btleffect005_0
+    21300002: pipo-btleffect005_1
+    21300004: pipo-btleffect005_2
+    21300006: pipo-btleffect005_3
+    21300008: pipo-btleffect005_4
+    21300010: pipo-btleffect005_5
+    21300012: pipo-btleffect005_6
+    21300014: pipo-btleffect005_7
+    21300016: pipo-btleffect005_8
+    21300018: pipo-btleffect005_9
+    21300020: pipo-btleffect005_10
+    21300022: pipo-btleffect005_11
+    21300024: pipo-btleffect005_12
+    21300026: pipo-btleffect005_13
+    21300028: pipo-btleffect005_14
+    21300030: pipo-btleffect005_15
+    21300032: pipo-btleffect005_16
+    21300034: pipo-btleffect005_17
+    21300036: pipo-btleffect005_18
+    21300038: pipo-btleffect005_19
+    21300040: pipo-btleffect005_20
+    21300042: pipo-btleffect005_21
+    21300044: pipo-btleffect005_22
+    21300046: pipo-btleffect005_23
+    21300048: pipo-btleffect005_24
+    21300050: pipo-btleffect005_25
+    21300052: pipo-btleffect005_26
+    21300054: pipo-btleffect005_27
+    21300056: pipo-btleffect005_28
+    21300058: pipo-btleffect005_29
+    21300060: pipo-btleffect005_30
+    21300062: pipo-btleffect005_31
+    21300064: pipo-btleffect005_32
+    21300066: pipo-btleffect005_33
+    21300068: pipo-btleffect005_34
+    21300070: pipo-btleffect005_35
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: pipo-btleffect005_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1960
+        width: 97
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_1
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 1713
+        width: 112
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_2
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 1600
+        width: 89
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_3
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 1465
+        width: 117
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_4
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 1349
+        width: 103
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_5
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 1225
+        width: 91
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_6
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1055
+        width: 117
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_7
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 1099
+        width: 108
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_8
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 1053
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_9
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 1039
+        width: 5
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_10
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 1029
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_11
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 1017
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_12
+      rect:
+        serializedVersion: 2
+        x: 89
+        y: 1017
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_13
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 1017
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_14
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 1016
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_15
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 1006
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_16
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 1001
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_17
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 992
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_18
+      rect:
+        serializedVersion: 2
+        x: 28
+        y: 804
+        width: 134
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_19
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 677
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_20
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 663
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_21
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 658
+        width: 8
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_22
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 553
+        width: 138
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_23
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 645
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_24
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 312
+        width: 105
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_25
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 153
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_26
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 135
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_27
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 126
+        width: 9
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_28
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 110
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_29
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 120
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_30
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 112
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_31
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 111
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_32
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 107
+        width: 6
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_33
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 96
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_34
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 90
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: pipo-btleffect005_35
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 78
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
