@@ -5,25 +5,36 @@ using UnityEngine.SceneManagement;
 
 public class ResultCtrl : MonoBehaviour
 {
+    private GameObject player;          //Playerを取得
+    private GameObject[] enemys;        //Enemyを全て取得
     private PlayerStatus playerStatus;  //プレーヤーのステータス
     private EnemyStatus enemyStatus;    //敵のステータス
-    BattleRSP battleRSP;
+    private BattleRSP battleRSP;                //Input系の制御script
+    private MoveStage moveStage;        //敵を撃破時に移動制御するscript
     private AudioSource SEBox;          //PlayOneShot用の空箱
     private Animator anim;              //Animation用の空箱
     public Image result;                //じゃんけん判定を表示
-    public Sprite imageWin;             //勝利画像
+    public Sprite imageWin;             //勝ち画像
     public Sprite imageDrow;            //引き分け画像
     public Sprite imageLose;            //負け画像
-    public Sprite imageCongra;
+    public Sprite imageCongra;          //終了画像
+    public Sprite imageinvisible;       //透明の画像
+    
 
 
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
+        enemys = GameObject.FindGameObjectsWithTag("Enemy");
+
         playerStatus = FindObjectOfType<PlayerStatus>();
-        enemyStatus = FindObjectOfType<EnemyStatus>();
+        enemyStatus = enemys[moveStage.GetWinCount()].GetComponent<EnemyStatus>();
         battleRSP = FindObjectOfType<BattleRSP>();
+        moveStage = FindObjectOfType<MoveStage>();
+
         SEBox = GameObject.Find("SEBox").GetComponent<AudioSource>();
         anim = GameObject.Find("AnimCtrl").GetComponent<Animator>();
+        
     }
 
     
@@ -37,8 +48,19 @@ public class ResultCtrl : MonoBehaviour
         //敵撃破時
         else if(enemyStatus.HP <= 0)
         {
-            battleRSP.enabled = false;
-            result.GetComponent<Image>().sprite = imageCongra;
+            //敵がまだ居るのならステージ移動する
+            if (moveStage.GetWinCount() < moveStage.nextPos.Length - 1)
+            {
+                result.GetComponent<Image>().sprite = imageinvisible; //ステージ移動時は画像が無いようにする
+                moveStage.NextStage(); //ステージ移動
+                enemyStatus = enemys[moveStage.GetWinCount()].GetComponent<EnemyStatus>(); //新しい敵のステータスを取得
+            }
+            //もう居ないのなら終了
+            else
+            {
+                battleRSP.enabled = false;
+                result.GetComponent<Image>().sprite = imageCongra;
+            }
         }
     }
 
@@ -71,6 +93,7 @@ public class ResultCtrl : MonoBehaviour
         AudioClip SE = Resources.Load("strong") as AudioClip; //強攻撃の効果音を取得
         SEBox.PlayOneShot(SE, 3f); //効果音を鳴らす
         result.GetComponent<Image>().sprite = imageWin;
+        iTween.MoveFrom(player, iTween.Hash("x", player.transform.position.x + 0.4f, "time", 0.01f)); //攻撃時にブレさせる
     }
 
     public void Drow()
@@ -88,5 +111,8 @@ public class ResultCtrl : MonoBehaviour
         AudioClip SE = Resources.Load("damaged") as AudioClip; //強攻撃の効果音を取得
         SEBox.PlayOneShot(SE, 3f); //効果音を鳴らす
         result.GetComponent<Image>().sprite = imageLose;
+        foreach (GameObject e in enemys) {
+            iTween.MoveFrom(e, iTween.Hash("x", e.transform.position.x - 0.4f, "time", 0.01f)); //攻撃時にブレさせる
+        }
     }
 }
