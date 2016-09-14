@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PlayerStatus : MonoBehaviour
 {
     public int maxHP = 50;  //最大体力
-    public int HP;     //体力
+    public int HP;          //体力
     public Slider HPber;    //体力ゲージ
     public int strong = 5;  //強攻撃
     public int normal = 2;  //中攻撃

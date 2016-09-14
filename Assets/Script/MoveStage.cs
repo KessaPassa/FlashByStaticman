@@ -7,11 +7,16 @@ public class MoveStage : MonoBehaviour
     private int winCounter;
 
 
-    void Start()
+
+    void Awake()
     {
         winCounter = 0;
     }
 
+    void Start()
+    {
+      
+    }
 
     void Update()
     {

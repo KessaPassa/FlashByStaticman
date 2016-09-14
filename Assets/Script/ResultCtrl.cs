@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class ResultCtrl : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class ResultCtrl : MonoBehaviour
     private GameObject[] enemys;        //Enemyを全て取得
     private PlayerStatus playerStatus;  //プレーヤーのステータス
     private EnemyStatus enemyStatus;    //敵のステータス
-    private BattleRSP battleRSP;                //Input系の制御script
+    private BattleRSP battleRSP;        //Input系の制御script
     private MoveStage moveStage;        //敵を撃破時に移動制御するscript
     private AudioSource SEBox;          //PlayOneShot用の空箱
     private Animator anim;              //Animation用の空箱
@@ -19,29 +20,50 @@ public class ResultCtrl : MonoBehaviour
     public Sprite imageLose;            //負け画像
     public Sprite imageCongra;          //終了画像
     public Sprite imageinvisible;       //透明の画像
+    private bool isGameStop = true;     //ゲームが動いているかどうか
     
-
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");//.ToArray();
+        enemys = enemy.OrderBy(e => Vector3.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
 
         playerStatus = FindObjectOfType<PlayerStatus>();
-        enemyStatus = enemys[moveStage.GetWinCount()].GetComponent<EnemyStatus>();
         battleRSP = FindObjectOfType<BattleRSP>();
         moveStage = FindObjectOfType<MoveStage>();
-
         SEBox = GameObject.Find("SEBox").GetComponent<AudioSource>();
         anim = GameObject.Find("AnimCtrl").GetComponent<Animator>();
-        
+        enemyStatus = enemys[moveStage.GetWinCount()].GetComponent<EnemyStatus>();
+
+        anim.SetTrigger("Stamp"); //スタンプを表示
     }
 
     
     void Update()
     {
+        //ゲームが止まっているなら
+        if (isGameStop)
+        {
+            //クリックかエンターを押すと、スタンプが消えゲームスタート
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
+            {
+                isGameStop = false;
+                EndAnim();
+            }
+            else
+            {
+                battleRSP.enabled = false;
+            }
+        }
+        //止まっていないならscriptをオンにして正常に動かす
+        else
+        {
+            battleRSP.enabled = true;
+        }
+
         //プレイヤー死亡時
-        if(playerStatus.HP <= 0)
+        if (playerStatus.HP <= 0)
         {
             SceneManager.LoadScene("GameOver");
         }
@@ -64,7 +86,7 @@ public class ResultCtrl : MonoBehaviour
         }
     }
 
-    //アニメーションを停止させる
+    //アニメーションを終了させる
     public void EndAnim()
     {
         anim.SetTrigger("Wait");
