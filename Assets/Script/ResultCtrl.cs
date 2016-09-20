@@ -20,7 +20,8 @@ public class ResultCtrl : MonoBehaviour
     public Sprite imageLose;            //負け画像
     public Sprite imageCongra;          //終了画像
     public Sprite imageinvisible;       //透明の画像
-    private bool isGameStop = true;     //ゲームが動いているかどうか
+    public bool isGameStop = true;      //ゲームが動いているかどうか
+    public Image startAtClick;          //クリックしてスタートの画像
     
 
     void Start()
@@ -42,14 +43,25 @@ public class ResultCtrl : MonoBehaviour
     
     void Update()
     {
+        IsPlayGame();   //ゲームが動いているか
+        AfterDead();    //プレーヤーまたは敵の死亡時なにをするか
+
+        float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f);      //pingpong関数で0と1を行ったり来たり
+        startAtClick.color = new Color(startAtClick.color.r, startAtClick.color.g, startAtClick.color.b, pingpong); //点めつするようにする
+    }
+
+    void IsPlayGame()
+    {
         //ゲームが止まっているなら
         if (isGameStop)
         {
             //クリックかエンターを押すと、スタンプが消えゲームスタート
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
             {
+                startAtClick.enabled = false;   //点滅を消す
                 isGameStop = false;
                 EndAnim();
+                battleRSP.StartGame();
             }
             else
             {
@@ -61,14 +73,17 @@ public class ResultCtrl : MonoBehaviour
         {
             battleRSP.enabled = true;
         }
+    }
 
+    void AfterDead()
+    {
         //プレイヤー死亡時
         if (playerStatus.HP <= 0)
         {
             SceneManager.LoadScene("GameOver");
         }
         //敵撃破時
-        else if(enemyStatus.HP <= 0)
+        else if (enemyStatus.HP <= 0)
         {
             //敵がまだ居るのならステージ移動する
             if (moveStage.GetWinCount() < moveStage.nextPos.Length - 1)
