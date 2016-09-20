@@ -20,7 +20,10 @@ public class BattleRSP : MonoBehaviour
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
         appearHand = new Image[originHand.Length];
-        
+    }
+
+    public void StartGame()
+    {
         //出現する手をインスタンス生成
         for (int i = 0; i < originHand.Length; i++)
         {
@@ -60,8 +63,11 @@ public class BattleRSP : MonoBehaviour
             playerRSP = -1;
         }
 
-        LerpHand();
-        CheckRSP(playerRSP);
+        if (!resultCtrl.isGameStop)
+        {
+            LerpHand();
+            CheckRSP(playerRSP);
+        }
     }
 
     //敵の手を隠す
