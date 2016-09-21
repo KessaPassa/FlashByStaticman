@@ -9,19 +9,21 @@ public class BattleRSP : MonoBehaviour
     public Sprite paper;                //パー
     public GameObject canvas;           //Imageインスタンスを入れるためのcanvas
     public Image[] originHand;          //インスタンスの元となるオブジェクト
-    private Image[] appearHand;         //originHandを元に生成されたインスタンス
+    private Image[] appearHand;         //originHandを元に生成されるインスタンス
     private ResultCtrl resultCtrl;      //結果表示をコントロールするscript
     private bool isHiddenOn = false;    //手が隠されているか否か
     public float lerpTime = 0.2f;       //線形補間の速度
     private float startTime = -1f;      //線形補間の時間初期値
 
 
-
     void Start()
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
         appearHand = new Image[originHand.Length];
-        
+    }
+
+    public void StartGame()
+    {
         //出現する手をインスタンス生成
         for (int i = 0; i < originHand.Length; i++)
         {
@@ -61,8 +63,11 @@ public class BattleRSP : MonoBehaviour
             playerRSP = -1;
         }
 
-        LerpHand();
-        CheckRSP(playerRSP);
+        if (!resultCtrl.isGameStop)
+        {
+            LerpHand();
+            CheckRSP(playerRSP);
+        }
     }
 
     //敵の手を隠す
@@ -211,9 +216,8 @@ public class BattleRSP : MonoBehaviour
         //インスタンス生成
         appearHand[appearHand.Length - 1] = Instantiate(
             originHand[appearHand.Length - 1],
-            originHand[appearHand.Length - 1].
-            transform.position, Quaternion.identity
-            ) as Image;
+            originHand[appearHand.Length - 1].transform.position, 
+            Quaternion.identity) as Image;
 
         appearHand[appearHand.Length - 1].GetComponent<Image>().sprite = GetNextHand();                                 //ずらして空になったところに絵を入れる
         appearHand[appearHand.Length - 1].transform.SetParent(canvas.transform);                                        //canvasと親子にする。UIなのでcanvasがないと生きられない
