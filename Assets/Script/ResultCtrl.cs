@@ -46,7 +46,7 @@ public class ResultCtrl : MonoBehaviour
         IsPlayGame();   //ゲームが動いているか
         AfterDead();    //プレーヤーまたは敵の死亡時なにをするか
 
-        float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f);      //pingpong関数で0と1を行ったり来たり
+        float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f); //pingpong関数で0と1を行ったり来たり
         startAtClick.color = new Color(startAtClick.color.r, startAtClick.color.g, startAtClick.color.b, pingpong); //点めつするようにする
     }
 
