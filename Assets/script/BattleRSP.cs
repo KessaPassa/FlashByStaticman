@@ -9,16 +9,19 @@ public class BattleRSP : MonoBehaviour
     public Sprite paper;                //パー
     public GameObject canvas;           //Imageインスタンスを入れるためのcanvas
     public Image[] originHand;          //インスタンスの元となるオブジェクト
-    private Image[] appearHand;         //originHandを元に生成されるインスタンス
+    [HideInInspector]
+    public Image[] appearHand;         //originHandを元に生成されるインスタンス
     private ResultCtrl resultCtrl;      //結果表示をコントロールするscript
+    private LerpMode lerpMode;
     private bool isHiddenOn = false;    //手が隠されているか否か
-    public float lerpTime = 0.2f;       //線形補間の速度
+    public float lerpTime = 0.8f;       //線形補間の速度
     private float startTime = -1f;      //線形補間の時間初期値
 
 
     void Start()
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
+        lerpMode = FindObjectOfType<LerpMode>();
         appearHand = new Image[originHand.Length];
     }
 
@@ -106,21 +109,8 @@ public class BattleRSP : MonoBehaviour
             float diff = Time.timeSinceLevelLoad - startTime;   //差異
             float rate = diff / lerpTime;                       //滑らかに動かす速度調整
 
-            //線形補間させ、滑らかに動かす
-            for (int i = 0; i < appearHand.Length - 1; i++)
-            {
-                //x軸とy軸どちらにも対応
-                if (originHand[i].transform.position.x < appearHand[i].transform.position.x || 
-                    originHand[i].transform.position.y < appearHand[i].transform.position.y)
-                {
-                    //線形補間
-                    appearHand[i].transform.position = Vector3.Lerp(
-                        originHand[i + 1].transform.position,
-                        originHand[i].transform.position,
-                        rate
-                        );
-                }
-            }
+            //lerpMode.NormalLerp(rate);
+            lerpMode.SinLerp(rate);
         }
     }
 
@@ -222,7 +212,7 @@ public class BattleRSP : MonoBehaviour
         appearHand[appearHand.Length - 1].GetComponent<Image>().sprite = GetNextHand();                                 //ずらして空になったところに絵を入れる
         appearHand[appearHand.Length - 1].transform.SetParent(canvas.transform);                                        //canvasと親子にする。UIなのでcanvasがないと生きられない
         appearHand[appearHand.Length - 1].tag = SetTag(appearHand[appearHand.Length - 1].GetComponent<Image>().sprite); //tagを設定
-        appearHand[appearHand.Length - 1].name = originHand[appearHand.Length - 1].name;                                //名前をセット
+        //appearHand[appearHand.Length - 1].name = originHand[appearHand.Length - 1].name;                                //名前をセット
         appearHand[appearHand.Length - 1].enabled = true;                                                               //初期状態では見えないので
         appearHand[appearHand.Length - 1].rectTransform.localScale = 
             originHand[originHand.Length - 1].rectTransform.localScale;                                                 //アスペクト比を変えたときに大きさが変わるため固定
