@@ -13,7 +13,7 @@ public class ResultCtrl : MonoBehaviour
     private BattleRSP battleRSP;        //Input系の制御script
     private MoveStage moveStage;        //敵を撃破時に移動制御するscript
     private AudioSource SEBox;          //PlayOneShot用の空箱
-    private Animator anim;              //Animation用の空箱
+    public Animator anim;              //Animation用の空箱
     public Image result;                //じゃんけん判定を表示
     public Sprite imageWin;             //勝ち画像
     public Sprite imageDrow;            //引き分け画像
