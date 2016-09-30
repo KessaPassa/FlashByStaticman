@@ -13,7 +13,7 @@ public class Title : MonoBehaviour {
 	void Update () {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
         {
-            fadeManager.FadeStart(1);
+            fadeManager.FadeStart(sceneIndex: 1, waitForSeconds: 0f);
         }
 	}
 
