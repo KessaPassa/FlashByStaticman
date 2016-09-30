@@ -12,8 +12,9 @@ public class ResultCtrl : MonoBehaviour
     private EnemyStatus enemyStatus;    //敵のステータス
     private BattleRSP battleRSP;        //Input系の制御script
     private MoveStage moveStage;        //敵を撃破時に移動制御するscript
+    private FadeManager fadeManager;    //フェードを管理するスクリプト
     private AudioSource SEBox;          //PlayOneShot用の空箱
-    public Animator anim;              //Animation用の空箱
+    public Animator anim;               //Animation用の空箱
     public Image result;                //じゃんけん判定を表示
     public Sprite imageWin;             //勝ち画像
     public Sprite imageDrow;            //引き分け画像
@@ -22,22 +23,25 @@ public class ResultCtrl : MonoBehaviour
     public Sprite imageinvisible;       //透明の画像
     public bool isGameStop = true;      //ゲームが動いているかどうか
     public Image startAtClick;          //クリックしてスタートの画像
+    public GameObject deadLine;
     
 
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");//.ToArray();
-        enemys = enemy.OrderBy(e => Vector3.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
+        enemys = enemy.OrderBy(e => Vector2.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
 
         playerStatus = FindObjectOfType<PlayerStatus>();
         battleRSP = FindObjectOfType<BattleRSP>();
         moveStage = FindObjectOfType<MoveStage>();
+        fadeManager = FindObjectOfType<FadeManager>();
         SEBox = GameObject.Find("SEBox").GetComponent<AudioSource>();
         anim = GameObject.Find("AnimCtrl").GetComponent<Animator>();
-        enemyStatus = enemys[moveStage.GetWinCount()].GetComponent<EnemyStatus>();
+        enemyStatus = enemys[moveStage.winCounter].GetComponent<EnemyStatus>();
 
         anim.SetTrigger("Stamp"); //スタンプを表示
+        fadeManager.FadeStart(waitForSeconds: 0.2f);  //指定秒待ってからスタートする
     }
 
     
@@ -56,8 +60,9 @@ public class ResultCtrl : MonoBehaviour
         if (isGameStop)
         {
             //クリックかエンターを押すと、スタンプが消えゲームスタート
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return))
+            if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return)) && fadeManager.isFadeFinished)
             {
+                deadLine.GetComponent<Image>().enabled = true;
                 startAtClick.enabled = false;   //点滅を消す
                 isGameStop = false;
                 EndAnim();
@@ -76,21 +81,16 @@ public class ResultCtrl : MonoBehaviour
     }
 
     void AfterDead()
-    {
-        //プレイヤー死亡時
-        if (playerStatus.HP <= 0)
-        {
-            SceneManager.LoadScene("GameOver");
-        }
+    { 
         //敵撃破時
-        else if (enemyStatus.HP <= 0)
+        if (enemyStatus.HP <= 0)
         {
             //敵がまだ居るのならステージ移動する
-            if (moveStage.GetWinCount() < moveStage.nextPos.Length - 1)
+            if (moveStage.winCounter < moveStage.nextPos.Length - 1)
             {
                 result.GetComponent<Image>().sprite = imageinvisible; //ステージ移動時は画像が無いようにする
                 moveStage.NextStage(); //ステージ移動
-                enemyStatus = enemys[moveStage.GetWinCount()].GetComponent<EnemyStatus>(); //新しい敵のステータスを取得
+                enemyStatus = enemys[moveStage.winCounter].GetComponent<EnemyStatus>(); //新しい敵のステータスを取得
             }
             //もう居ないのなら終了
             else

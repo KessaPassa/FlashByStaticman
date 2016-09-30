@@ -4,7 +4,7 @@ using System.Collections;
 public class MoveStage : MonoBehaviour
 {
     public GameObject[] nextPos;
-    private int winCounter;
+    public int winCounter;
     private ResultCtrl resultCtrl;
 
 
@@ -35,10 +35,5 @@ public class MoveStage : MonoBehaviour
         winCounter++;
         iTween.MoveTo(gameObject, iTween.Hash("x", nextPos[winCounter].transform.position.x, "time", 3f));
         resultCtrl.anim.SetTrigger("MoveScene");
-    }
-
-    public int GetWinCount()
-    {
-        return winCounter;
     }
 }

@@ -10,7 +10,7 @@ public class BattleRSP : MonoBehaviour
     public GameObject canvas;           //Imageインスタンスを入れるためのcanvas
     public Image[] originHand;          //インスタンスの元となるオブジェクト
     [HideInInspector]
-    public Image[] appearHand;         //originHandを元に生成されるインスタンス
+    public Image[] appearHand;          //originHandを元に生成されるインスタンス
     private ResultCtrl resultCtrl;      //結果表示をコントロールするscript
     private LerpMode lerpMode;
     private bool isHiddenOn = false;    //手が隠されているか否か
@@ -70,6 +70,13 @@ public class BattleRSP : MonoBehaviour
         {
             LerpHand();
             CheckRSP(playerRSP);
+        }
+
+        //デッドラインをじゃんけんの手が越えたら強制的に負け
+        if(resultCtrl.deadLine.transform.position.x - 5f > appearHand[0].transform.position.x)
+        {
+            resultCtrl.Lose();
+            MoveHand();
         }
     }
 
@@ -212,11 +219,11 @@ public class BattleRSP : MonoBehaviour
         appearHand[appearHand.Length - 1].GetComponent<Image>().sprite = GetNextHand();                                 //ずらして空になったところに絵を入れる
         appearHand[appearHand.Length - 1].transform.SetParent(canvas.transform);                                        //canvasと親子にする。UIなのでcanvasがないと生きられない
         appearHand[appearHand.Length - 1].tag = SetTag(appearHand[appearHand.Length - 1].GetComponent<Image>().sprite); //tagを設定
-        //appearHand[appearHand.Length - 1].name = originHand[appearHand.Length - 1].name;                                //名前をセット
+        //appearHand[appearHand.Length - 1].name = originHand[appearHand.Length - 1].name;                              //名前をセット
         appearHand[appearHand.Length - 1].enabled = true;                                                               //初期状態では見えないので
         appearHand[appearHand.Length - 1].rectTransform.localScale = 
             originHand[originHand.Length - 1].rectTransform.localScale;                                                 //アスペクト比を変えたときに大きさが変わるため固定
-        appearHand[0].rectTransform.localScale = new Vector3(1.5f, 1.5f, 1f);                                               //手前だけ大きく
+        appearHand[0].rectTransform.localScale = new Vector3(1.5f, 1.5f, 1f);                                           //手前だけ大きく
 
         startTime = Time.timeSinceLevelLoad; //線形補間用の時間初期値
     }
