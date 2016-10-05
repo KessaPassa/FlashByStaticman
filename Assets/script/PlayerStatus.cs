@@ -12,6 +12,7 @@ public class PlayerStatus : MonoBehaviour
     public int normal = 2;              //中攻撃
     public int weak = 1;                //弱攻撃
     private FadeManager fadeManager;    //シーン遷移の時に使う
+    private BattleRSP battleRSP;
 
 
     void Start()
@@ -20,6 +21,7 @@ public class PlayerStatus : MonoBehaviour
         HPber.maxValue = maxHP;         //スライダーの最大値を最大体力に合わせる
         HPber.value = HPber.maxValue;   //最大値を変化させた分、初期valueも合わせる
         fadeManager = FindObjectOfType<FadeManager>();
+        battleRSP = FindObjectOfType<BattleRSP>();
     }
 
 
@@ -30,9 +32,9 @@ public class PlayerStatus : MonoBehaviour
         //プレイヤー死亡時
         if (HP <= 0)
         {
-            //SceneManager.LoadScene("GameOver");
-            fadeManager.FadeStart(sceneName: "GameOver", fadeSpeed: 1f);
             fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart(sceneName: "GameOver", fadeSpeed: 1f);
+            battleRSP.EndGame();
         }
     }
 }

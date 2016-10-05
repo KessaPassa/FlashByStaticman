@@ -13,10 +13,12 @@ public class FadeManager : MonoBehaviour {
     private float fadeSpeed = 0.5f;         //値が大きいほど早くフェードする
     private float waitForSeconds;           //コルーチンの待ち時間
 
+
     public enum FadeMode
     {
-        open, //黒から白へ+遷移しない
-        close //白から黒へ+遷移する
+        none = -1,  //すぐに遷移する
+        open,       //黒から白へ+遷移しない
+        close       //白から黒へ+遷移する
     }
     public FadeMode fadeMode = FadeMode.open;
 
@@ -54,18 +56,36 @@ public class FadeManager : MonoBehaviour {
                     StartCoroutine(FadeFinished(alpha));                    
                 }
             }
+            //noneなら
+            else
+            {
+                TransitionScene();
+            }
         }
 	}
 
     //ここにシーン番号を引数にしてアクセスするとフェードが始まる
-    public void FadeStart(int sceneIndex = -1, string sceneName = null, float fadeSpeed = 0.5f, float waitForSeconds = 0f)
+    public void FadeStart(int sceneIndex, float fadeSpeed = 0.5f, float waitForSeconds = 0f)
     {
         this.sceneIndex = sceneIndex;           //シーン遷移の番号
-        this.sceneName = sceneName;             //シーン遷移の名前
         this.fadeSpeed = fadeSpeed;             //フェードする速さ
-        this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間   
+        this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
         isFading = true;
     }
+
+    //ここにシーン名前を引数にしてアクセスするとフェードが始まる
+    public void FadeStart(string sceneName, float fadeSpeed = 0.5f, float waitForSeconds = 0f)
+    {
+        this.sceneName = sceneName;             //シーン遷移の名前
+        this.fadeSpeed = fadeSpeed;             //フェードする速さ
+        this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
+        isFading = true;
+    }
+
+    //public void ChangeMode(string mode)
+    //{
+
+    //}
 
     IEnumerator FadeFinished(float alpha)
     {
