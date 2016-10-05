@@ -12,7 +12,7 @@ public class BattleRSP : MonoBehaviour
     [HideInInspector]
     public Image[] appearHand;          //originHandを元に生成されるインスタンス
     private ResultCtrl resultCtrl;      //結果表示をコントロールするscript
-    private LerpMode lerpMode;
+    private LerpManager lerpManager;
     private bool isHiddenOn = false;    //手が隠されているか否か
     public float lerpTime = 0.8f;       //線形補間の速度
     private float startTime = -1f;      //線形補間の時間初期値
@@ -21,7 +21,7 @@ public class BattleRSP : MonoBehaviour
     void Start()
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
-        lerpMode = FindObjectOfType<LerpMode>();
+        lerpManager = FindObjectOfType<LerpManager>();
         appearHand = new Image[originHand.Length];
     }
 
@@ -37,6 +37,18 @@ public class BattleRSP : MonoBehaviour
             appearHand[i].name = originHand[i].name;                                //名前をセット
             appearHand[i].enabled = true;                                           //初期状態が見えないので
         }
+        MoveHand();
+    }
+
+    public void EndGame()
+    {
+        resultCtrl.isGameStop = true;
+        for (int i = 0; i < originHand.Length; i++)
+        {
+            //appearHand[i].enabled = false;
+            Destroy(appearHand[i].gameObject);
+        }
+        GetComponent<BattleRSP>().enabled = false;
     }
 
 
@@ -73,7 +85,7 @@ public class BattleRSP : MonoBehaviour
         }
 
         //デッドラインをじゃんけんの手が越えたら強制的に負け
-        if(resultCtrl.deadLine.transform.position.x - 5f > appearHand[0].transform.position.x)
+        if(resultCtrl.deadLine.transform.position.x + 5f > appearHand[0].transform.position.x)
         {
             resultCtrl.Lose();
             MoveHand();
@@ -113,11 +125,8 @@ public class BattleRSP : MonoBehaviour
         //関数MoveHandが一度は呼ばれてから動作したいため
         if (startTime > 0)
         {
-            float diff = Time.timeSinceLevelLoad - startTime;   //差異
-            float rate = diff / lerpTime;                       //滑らかに動かす速度調整
-
-            //lerpMode.NormalLerp(rate);
-            lerpMode.SinLerp(rate);
+            float diff = Time.timeSinceLevelLoad - startTime;       //差異
+            lerpManager.SelectLerp(resultCtrl.enemyStatus, diff);   //LerpManager起動
         }
     }
 
