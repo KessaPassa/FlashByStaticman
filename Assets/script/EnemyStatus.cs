@@ -4,15 +4,15 @@ using UnityEngine.UI;
 
 public class EnemyStatus : MonoBehaviour
 {
-    public int maxHP = 50;      //最大体力
-    public int HP;              //体力
-    public Slider HPber;        //体力ゲージ
-    public int strong = 5;      //強攻撃
-    public int normal = 2;      //中攻撃
-    public int weak = 1;        //弱攻撃
-    public float lerpTime = 1;  //値が大きいほど早くなる
+    public int maxHP = 50;          //最大体力
+    public int HP;                  //体力
+    public Slider HPber;            //体力ゲージ
+    public int strong = 5;          //強攻撃
+    public int normal = 2;          //中攻撃
+    public int weak = 1;            //弱攻撃
+    public float lerpTime = 1;      //値が大きいほど早くなる
     private ResultCtrl resultCtrl;
-    private bool isDied = false;
+    private bool isDied = false;    //死んだかどうか
 
     public enum LerpMode
     {

@@ -20,7 +20,6 @@ public class LerpManager : MonoBehaviour {
 
     public void SelectLerp(EnemyStatus enemyStatus, float diff)
     {
-        //this.enemyStatus = enemyStatus;
         this.diff = diff;
         this.lerpTime = enemyStatus.lerpTime;
 
@@ -36,31 +35,25 @@ public class LerpManager : MonoBehaviour {
 
     public void NormalLerp()
     {
-        //if (battleRSP.originHand[0].transform.position.x < battleRSP.appearHand[0].transform.position.x)
-        //{
-            //線形補間
-            battleRSP.appearHand[0].transform.position = Vector2.Lerp(
-                battleRSP.originHand[0].transform.position,
-                resultCtrl.deadLine.transform.position,
-                diff * lerpTime
-                );
-        //}
+        //線形補間
+        battleRSP.appearHand[0].transform.position = Vector2.Lerp(
+            battleRSP.originHand[0].transform.position,
+            resultCtrl.deadLine.transform.position,
+            diff * lerpTime
+            );
     }
 
     public void SinLerp()
     {
-        //if (battleRSP.originHand[0].transform.position.x < battleRSP.appearHand[0].transform.position.x)
-        //{
-            float width = 150f;
-            float pingpong = Mathf.PingPong(Time.time * 500f, width) - width / 2f;
+        float width = 150f;
+        float pingpong = Mathf.PingPong(Time.time * 500f, width) - width / 2f;
 
-            //線形補間
-            battleRSP.appearHand[0].transform.position = Vector2.Lerp(
-                battleRSP.originHand[0].transform.position,
-                new Vector2(resultCtrl.deadLine.transform.position.x, resultCtrl.deadLine.transform.position.y + pingpong),
-                diff * lerpTime
-                );
-        //}
+        //線形補間
+        battleRSP.appearHand[0].transform.position = Vector2.Lerp(
+            battleRSP.originHand[0].transform.position,
+            new Vector2(resultCtrl.deadLine.transform.position.x, resultCtrl.deadLine.transform.position.y + pingpong),
+            diff * lerpTime
+            );
     }
 
     public void SwayRot()

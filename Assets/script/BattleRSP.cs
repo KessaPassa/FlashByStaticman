@@ -16,6 +16,7 @@ public class BattleRSP : MonoBehaviour
     private bool isHiddenOn = false;    //手が隠されているか否か
     public float lerpTime = 0.8f;       //線形補間の速度
     private float startTime = -1f;      //線形補間の時間初期値
+    public float offset;                //acceptLineの微調整 プラスで右に、マイナスで左に動く
 
 
     void Start()
@@ -54,38 +55,47 @@ public class BattleRSP : MonoBehaviour
 
     void Update()
     {
-        HiddenOn(); //手を隠す
+        //HiddenOn(); //手を隠す
 
-        //自分の手を取得
-        int playerRSP;
-        //グー
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            playerRSP = 0;
-        }
-        //チョキ
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            playerRSP = 1;
-        }
-        //パー
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            playerRSP = 2;
-        }
-        else
-        {
-            playerRSP = -1;
-        }
+        Vector3 width = Camera.main.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, 0f, 0f));
+        float acceptLine = transform.position.x + width.x + offset;
+        Vector3 nowHand = GetComponent<Camera>().ScreenToWorldPoint(appearHand[0].transform.position);
 
-        if (!resultCtrl.isGameStop)
+        if (nowHand.x < acceptLine)
         {
-            LerpHand();
-            CheckRSP(playerRSP);
+            //自分の手を取得
+            int playerRSP;
+            //グー
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                playerRSP = 0;
+            }
+            //チョキ
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                playerRSP = 1;
+            }
+            //パー
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                playerRSP = 2;
+            }
+            else
+            {
+                playerRSP = -1;
+            }
+
+
+            if (!resultCtrl.isGameStop)
+            {
+                
+                CheckRSP(playerRSP);
+            }
         }
+        LerpHand();
 
         //デッドラインをじゃんけんの手が越えたら強制的に負け
-        if(resultCtrl.deadLine.transform.position.x + 5f > appearHand[0].transform.position.x)
+        if (resultCtrl.deadLine.transform.position.x + 5f > appearHand[0].transform.position.x)
         {
             resultCtrl.Lose();
             MoveHand();

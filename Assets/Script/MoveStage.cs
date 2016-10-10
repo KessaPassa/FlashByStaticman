@@ -3,7 +3,8 @@ using System.Collections;
 
 public class MoveStage : MonoBehaviour
 {
-    public GameObject[] nextPos;
+    //public Transform background;
+    public Transform[] nextPos;
     public int winCounter;
     private ResultCtrl resultCtrl;
     private BattleRSP battleRSP;
@@ -22,9 +23,9 @@ public class MoveStage : MonoBehaviour
 
     void Update()
     {
-        EnemyStatus enemyStatus = resultCtrl.enemyStatus;
+        //EnemyStatus enemyStatus = resultCtrl.enemyStatus;
 
-        if(transform.position.x >= nextPos[winCounter].transform.position.x)
+        if(transform.position.x >= nextPos[winCounter].position.x)
         {
             if(winCounter != 0)
             {
@@ -40,11 +41,23 @@ public class MoveStage : MonoBehaviour
         //}
     }
 
-    //カメラごと動かし、ステージを移動する
-    public void NextStage()
+    ////カメラごと動かし、ステージを移動する
+    //public void NextStage()
+    //{
+    //    winCounter++;
+    //    float next = background.position.x + nextPos[winCounter].position.x;
+    //    iTween.MoveTo(gameObject, iTween.Hash("x", next, "time", 3f));
+    //    resultCtrl.anim.SetTrigger("MoveScene");
+    //    battleRSP.EndGame();
+    //}
+
+    //背景と敵を動かす
+    //引数でとらないと、何故かResultCtrlとBattleRSPがNullReferenceExceptionになる
+    public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     {
         winCounter++;
-        iTween.MoveTo(gameObject, iTween.Hash("x", nextPos[winCounter].transform.position.x, "time", 3f));
+        float next = nextPos[winCounter].position.x - transform.position.x;
+        iTween.MoveTo(gameObject, iTween.Hash("x", next, "time", 3f));
         resultCtrl.anim.SetTrigger("MoveScene");
         battleRSP.EndGame();
     }

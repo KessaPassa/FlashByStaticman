@@ -12,15 +12,24 @@ public class Title : MonoBehaviour {
 	
 	
 	void Update () {
-        if (fadeManager.isFadeFinished && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return)))
-        {
-            fadeManager.fadeMode = FadeManager.FadeMode.close;
-            fadeManager.FadeStart(sceneIndex: 1, waitForSeconds: 0f);
-        }
+        
 	}
 
-    //public void OnStaartButton()
-    //{
+    public void OnStaartButton()
+    {
+        if (fadeManager.isFadeFinished)
+        {
+            fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart(1);
+        }
+    }
 
-    //}
+    public void OnTutorialButton()
+    {
+        if (fadeManager.isFadeFinished)
+        {
+            fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart("Tutorial");
+        }
+    }
 }

@@ -13,6 +13,7 @@ public class PlayerStatus : MonoBehaviour
     public int weak = 1;                //弱攻撃
     private FadeManager fadeManager;    //シーン遷移の時に使う
     private BattleRSP battleRSP;
+    private bool isDied = false;
 
 
     void Start()
@@ -30,8 +31,9 @@ public class PlayerStatus : MonoBehaviour
         HPber.value = HP; //受けたダメージをスライダーに反映させる
 
         //プレイヤー死亡時
-        if (HP <= 0)
+        if (HP <= 0 && !isDied)
         {
+            isDied = true;
             fadeManager.fadeMode = FadeManager.FadeMode.close;
             fadeManager.FadeStart(sceneName: "GameOver", fadeSpeed: 1f);
             battleRSP.EndGame();
