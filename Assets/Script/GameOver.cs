@@ -12,7 +12,7 @@ public class GameOver : MonoBehaviour {
 	
 	
 	void Update () {
-        if (fadeManager.isFadeFinished && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return)))
+        if (fadeManager.isFadeFinished && Input.anyKeyDown)
         {
             fadeManager.fadeMode = FadeManager.FadeMode.close;
             fadeManager.FadeStart(sceneIndex: 0, waitForSeconds: 0f);

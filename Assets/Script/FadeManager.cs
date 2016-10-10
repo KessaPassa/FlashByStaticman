@@ -8,8 +8,8 @@ public class FadeManager : MonoBehaviour {
     public bool isFading = false;           //フェードしているか否か
     public bool isFadeFinished = false;     //フェードが終わったか否か
 
-    private int sceneIndex;                 //遷移するシーンの番号
-    private string sceneName;               //遷移するシーンの名前
+    private int sceneIndex = -1;            //遷移するシーンの番号
+    private string sceneName = null;        //遷移するシーンの名前
     private float fadeSpeed = 0.5f;         //値が大きいほど早くフェードする
     private float waitForSeconds;           //コルーチンの待ち時間
 
