@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MoveStage : MonoBehaviour
 {
-    //public Transform background;
+    public Transform player;
     public Transform[] nextPos;
     public int winCounter;
     private ResultCtrl resultCtrl;
@@ -25,7 +25,7 @@ public class MoveStage : MonoBehaviour
     {
         //EnemyStatus enemyStatus = resultCtrl.enemyStatus;
 
-        if(transform.position.x >= nextPos[winCounter].position.x)
+        if(player.position.x >= nextPos[winCounter].position.x)
         {
             if(winCounter != 0)
             {
@@ -42,7 +42,7 @@ public class MoveStage : MonoBehaviour
     }
 
     ////カメラごと動かし、ステージを移動する
-    //public void NextStage()
+    //public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     //{
     //    winCounter++;
     //    float next = background.position.x + nextPos[winCounter].position.x;
@@ -57,7 +57,7 @@ public class MoveStage : MonoBehaviour
     {
         winCounter++;
         float next = nextPos[winCounter].position.x - transform.position.x;
-        iTween.MoveTo(gameObject, iTween.Hash("x", next, "time", 3f));
+        iTween.MoveTo(gameObject, iTween.Hash("x", next * -1f, "time", 1f));
         resultCtrl.anim.SetTrigger("MoveScene");
         battleRSP.EndGame();
     }
