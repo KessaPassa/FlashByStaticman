@@ -12,7 +12,7 @@ public class BattleRSP : MonoBehaviour
     [HideInInspector]
     public Image[] appearHand;          //originHandを元に生成されるインスタンス
     private ResultCtrl resultCtrl;      //結果表示をコントロールするscript
-    private LerpManager lerpManager;
+    private LerpManager lerpManager;    //じゃんけんの手を動かす
     private bool isHiddenOn = false;    //手が隠されているか否か
     public float lerpTime = 0.8f;       //線形補間の速度
     private float startTime = -1f;      //線形補間の時間初期値

@@ -3,11 +3,11 @@ using System.Collections;
 
 public class MoveStage : MonoBehaviour
 {
-    //public Transform background;
+    public Transform player;
     public Transform[] nextPos;
     public int winCounter;
     private ResultCtrl resultCtrl;
-    private BattleRSP battleRSP;
+    //private BattleRSP battleRSP;
     public bool isFignhting = true;
 
     void Awake()
@@ -18,14 +18,14 @@ public class MoveStage : MonoBehaviour
     void Start()
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
-        battleRSP = FindObjectOfType<BattleRSP>();
+        //battleRSP = FindObjectOfType<BattleRSP>();
     }
 
     void Update()
     {
         //EnemyStatus enemyStatus = resultCtrl.enemyStatus;
 
-        if(transform.position.x >= nextPos[winCounter].position.x)
+        if(player.position.x >= nextPos[winCounter].position.x)
         {
             if(winCounter != 0)
             {
@@ -33,16 +33,10 @@ public class MoveStage : MonoBehaviour
                 resultCtrl.EndAnim();
             }
         }
-
-        //if(!isFignhting && (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return)))
-        //{
-        //    isFignhting = true;  
-        //    //battleRSP.StartGame();
-        //}
     }
 
     ////カメラごと動かし、ステージを移動する
-    //public void NextStage()
+    //public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     //{
     //    winCounter++;
     //    float next = background.position.x + nextPos[winCounter].position.x;
@@ -56,8 +50,8 @@ public class MoveStage : MonoBehaviour
     public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     {
         winCounter++;
-        float next = nextPos[winCounter].position.x - transform.position.x;
-        iTween.MoveTo(gameObject, iTween.Hash("x", next, "time", 3f));
+        float next = nextPos[winCounter].position.x - player.position.x;
+        iTween.MoveTo(gameObject, iTween.Hash("x", next * -1f, "time", 1f));
         resultCtrl.anim.SetTrigger("MoveScene");
         battleRSP.EndGame();
     }
