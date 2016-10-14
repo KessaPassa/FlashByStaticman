@@ -42,7 +42,8 @@ public class EnemyStatus : MonoBehaviour
         HPbarPrefab = Instantiate(Resources.Load("EnemyHPbar")) as GameObject; //HPバー生成
         HPbar = this.HPbarPrefab.GetComponent<Slider>();
         HPbar.name += startIndex;                       //名前セット
-        HPbar.transform.parent = enemyCanvas.transform; //親子関連付け
+        HPbar.transform.SetParent(enemyCanvas.transform);
+        //HPbar.transform.parent = enemyCanvas.transform; //親子関連付け
         HP = maxHP;                                     //体力を初期化
         HPbar.maxValue = maxHP;                         //スライダーの最大値を最大体力に合わせる
         HPbar.value = HPbar.maxValue;                   //最大値を変化させた分、初期valueも合わせる
