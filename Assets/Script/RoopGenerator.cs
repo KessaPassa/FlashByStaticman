@@ -12,7 +12,7 @@ public class RoopGenerator : MonoBehaviour
 
     public float defaultOffset = 3f;
 
-    void Start()
+    void Awake()
     {
         for(int i=0; i < bgLength; i++)
         {
