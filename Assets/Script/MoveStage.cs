@@ -4,11 +4,10 @@ using System.Collections;
 public class MoveStage : MonoBehaviour
 {
     public Transform player;
-    public Transform[] nextPos;
     public int winCounter;
     private ResultCtrl resultCtrl;
-    //private BattleRSP battleRSP;
     public bool isFignhting = true;
+
 
     void Awake()
     {
@@ -25,7 +24,7 @@ public class MoveStage : MonoBehaviour
     {
         //EnemyStatus enemyStatus = resultCtrl.enemyStatus;
 
-        if(player.position.x >= nextPos[winCounter].position.x)
+        if(player.position.x >= InitGenerator.nextPos[winCounter].transform.position.x)
         {
             if(winCounter != 0)
             {
@@ -50,7 +49,7 @@ public class MoveStage : MonoBehaviour
     public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     {
         winCounter++;
-        float next = nextPos[winCounter].position.x - player.position.x;
+        float next = InitGenerator.nextPos[winCounter].transform.position.x - transform.position.x;
         iTween.MoveTo(gameObject, iTween.Hash("x", next * -1f, "time", 1f));
         resultCtrl.anim.SetTrigger("MoveScene");
         battleRSP.EndGame();

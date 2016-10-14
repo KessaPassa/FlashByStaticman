@@ -1,18 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RoopGenerator : MonoBehaviour
+public class InitGenerator : MonoBehaviour
 {
     public GameObject originBg;
     public int bgLength;
 
     public GameObject originNextPos;
     static public GameObject[] nextPos;
-    public int nextPosLength;
+    //public float defaultOffset = 3f;
 
-    public float defaultOffset = 3f;
 
-    void Start()
+    void Awake()
     {
         for(int i=0; i < bgLength; i++)
         {
@@ -24,12 +23,12 @@ public class RoopGenerator : MonoBehaviour
                 obj.transform.parent = this.transform;
         }
 
-        nextPos = new GameObject[nextPosLength];
-        for(int i=0; i < nextPosLength; i++)
+        nextPos = new GameObject[GameObject.FindGameObjectsWithTag("Enemy").Length];
+        for(int i=0; i < nextPos.Length; i++)
         {
             nextPos[i] = Instantiate(
                 originNextPos, 
-                new Vector2(originNextPos.transform.position.x + i * 25 + defaultOffset, originNextPos.transform.position.y),
+                new Vector2(originNextPos.transform.position.x + i * 25, originNextPos.transform.position.y),
                 Quaternion.identity) as GameObject;
 
             //nextPos[i].transform.parent.SetParent(originNextPos.transform);

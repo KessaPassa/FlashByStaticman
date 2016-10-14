@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class EnemyStatus : MonoBehaviour
 {
-    private Canvas enemyCanvas;                          //HPバー用のCanvas
+    private Canvas enemyCanvas;                         //HPバー用のCanvas
     public int maxHP = 50;                              //最大体力
     public int HP;                                      //体力
-    private GameObject HPbarPrefab;                     //読み込み用
+    private GameObject HPbarPrefab;                          //読み込み用
     private Slider HPbar;                               //体力ゲージ
     public int strong = 5;                              //強攻撃
     public int normal = 2;                              //中攻撃
@@ -31,21 +31,21 @@ public class EnemyStatus : MonoBehaviour
 
     void Start()
     {
-        transform.position = RoopGenerator.InitPos(startIndex);
+        transform.position = InitGenerator.InitPos(startIndex);
         //初期位置をoffsetを加味した位置にする
         transform.position = new Vector2(
-            transform.position.x + enemyOffset.x,
+            transform.position.x + 3f + enemyOffset.x,
             transform.position.y + enemyOffset.y
             );
 
         enemyCanvas = GameObject.FindWithTag("EnemyCanvas").GetComponent<Canvas>();
         HPbarPrefab = Instantiate(Resources.Load("EnemyHPbar")) as GameObject; //HPバー生成
         HPbar = this.HPbarPrefab.GetComponent<Slider>();
-        HPbar.name += startIndex;                       //名前セット
-        HPbar.transform.parent = enemyCanvas.transform; //親子関連付け
-        HP = maxHP;                                     //体力を初期化
-        HPbar.maxValue = maxHP;                         //スライダーの最大値を最大体力に合わせる
-        HPbar.value = HPbar.maxValue;                   //最大値を変化させた分、初期valueも合わせる
+        HPbar.name += startIndex;                           //名前セット
+        HPbar.transform.SetParent(enemyCanvas.transform);   //親子関連付け
+        HP = maxHP;                                         //体力を初期化
+        HPbar.maxValue = maxHP;                             //スライダーの最大値を最大体力に合わせる
+        HPbar.value = HPbar.maxValue;                       //最大値を変化させた分、初期valueも合わせる
         //位置も合わせる
         HPbar.transform.position = new Vector2(transform.position.x + barOffset.x, transform.position.y - 1.5f + barOffset.y);
 

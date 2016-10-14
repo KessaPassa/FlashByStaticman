@@ -11,6 +11,7 @@ public class ResultCtrl : MonoBehaviour
     public EnemyStatus enemyStatus;     //敵のステータス
     private BattleRSP battleRSP;        //Input系の制御script
     private MoveStage moveStage;        //敵を撃破時に移動制御するscript
+    //private InitGenerator initGenerator;
     private FadeManager fadeManager;    //フェードを管理するスクリプト
     private AudioSource SoundBox;       //PlayOneShot用の空箱
     public Animator anim;               //Animation用の空箱
@@ -28,15 +29,15 @@ public class ResultCtrl : MonoBehaviour
 
     void Start()
     {
-        GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");//.ToArray();
-        enemys = enemy.OrderBy(e => Vector2.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
-
         playerStatus = FindObjectOfType<PlayerStatus>();
         battleRSP = FindObjectOfType<BattleRSP>();
         moveStage = FindObjectOfType<MoveStage>();
+        //initGenerator = FindObjectOfType<InitGenerator>();
         fadeManager = FindObjectOfType<FadeManager>();
         SoundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
         anim = GameObject.FindWithTag("AnimCtrl").GetComponent<Animator>();
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");//.ToArray();
+        enemys = enemy.OrderBy(e => Vector2.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
         enemyStatus = enemys[moveStage.winCounter].GetComponent<EnemyStatus>();
 
         anim.SetTrigger("Stamp"); //スタンプを表示
@@ -84,7 +85,7 @@ public class ResultCtrl : MonoBehaviour
     public void EnemyDead()
     { 
         //敵がまだ居るのならステージ移動する
-        if (moveStage.winCounter < moveStage.nextPos.Length - 1)
+        if (moveStage.winCounter < InitGenerator.nextPos.Length)
         {
             //result.GetComponent<Image>().sprite = imageinvisible; //ステージ移動時は画像が無いようにする
             moveStage.NextStage(GetComponent<ResultCtrl>(), battleRSP); //ステージ移動
