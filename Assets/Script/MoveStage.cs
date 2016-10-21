@@ -17,14 +17,12 @@ public class MoveStage : MonoBehaviour
     void Start()
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
-        //battleRSP = FindObjectOfType<BattleRSP>();
     }
 
     void Update()
     {
-        //EnemyStatus enemyStatus = resultCtrl.enemyStatus;
-
-        if(player.position.x >= InitGenerator.nextPos[winCounter].transform.position.x)
+        //playerは固定のため、背景の方を調整する
+        if (player.position.x >= InitGenerator.nextPos[winCounter].transform.position.x - 3.5f)
         {
             if(winCounter != 0)
             {

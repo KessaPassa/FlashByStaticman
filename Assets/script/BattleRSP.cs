@@ -13,7 +13,6 @@ public class BattleRSP : MonoBehaviour
     public Image[] appearHand;          //originHandを元に生成されるインスタンス
     private ResultCtrl resultCtrl;      //結果表示をコントロールするscript
     private LerpManager lerpManager;    //じゃんけんの手を動かす
-    private bool isHiddenOn = false;    //手が隠されているか否か
     public float lerpTime = 0.8f;       //線形補間の速度
     private float startTime = -1f;      //線形補間の時間初期値
     public float offset;                //acceptLineの微調整 プラスで右に、マイナスで左に動く
@@ -55,8 +54,6 @@ public class BattleRSP : MonoBehaviour
 
     void Update()
     {
-        //HiddenOn(); //手を隠す
-
         Vector3 width = Camera.main.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Screen.width, 0f, 0f));
         float acceptLine = transform.position.x + width.x + offset;
         Vector3 nowHand = GetComponent<Camera>().ScreenToWorldPoint(appearHand[0].transform.position);
@@ -99,33 +96,6 @@ public class BattleRSP : MonoBehaviour
         {
             resultCtrl.Lose();
             MoveHand();
-        }
-    }
-
-    //敵の手を隠す
-    void HiddenOn()
-    {
-        //スペースを押したらHiddenを実行する(プロトタイプ)
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isHiddenOn = !isHiddenOn; //ボタン1つでオン・オフ
-        }
-        //trueなら1つ目以外を隠す
-        if (isHiddenOn)
-        {
-            appearHand[0].GetComponent<Image>().enabled = true;
-            for (int i = 1; i < appearHand.Length; i++)
-            {
-                appearHand[i].GetComponent<Image>().enabled = false;
-            }
-        }
-        //falseなら通常通り、全部表示する
-        else
-        {
-            for (int i = 0; i < appearHand.Length; i++)
-            {
-                appearHand[i].GetComponent<Image>().enabled = true;
-            }
         }
     }
 

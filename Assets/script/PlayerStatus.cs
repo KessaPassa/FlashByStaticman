@@ -14,6 +14,7 @@ public class PlayerStatus : MonoBehaviour
     private FadeManager fadeManager;    //シーン遷移の時に使う
     private BattleRSP battleRSP;
     private bool isDied = false;
+    private Vector2 startPos;
 
 
     void Start()
@@ -23,6 +24,7 @@ public class PlayerStatus : MonoBehaviour
         HPber.value = HPber.maxValue;   //最大値を変化させた分、初期valueも合わせる
         fadeManager = FindObjectOfType<FadeManager>();
         battleRSP = FindObjectOfType<BattleRSP>();
+        startPos = transform.position;
     }
 
 
@@ -38,5 +40,10 @@ public class PlayerStatus : MonoBehaviour
             fadeManager.FadeStart(sceneName: "GameOver", fadeSpeed: 1f);
             battleRSP.EndGame();
         }
+
+        //上下にフワフワ揺らす
+        float range = 0.2f;
+        var pingpong = Mathf.PingPong(Time.time * 0.1f, range / 2f) - range;
+        transform.position = new Vector2(startPos.x, startPos.y + pingpong);
     }
 }

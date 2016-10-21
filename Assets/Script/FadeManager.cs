@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class FadeManager : MonoBehaviour {
-    public Color fadeColor = Color.black;   //どの色からフェードを始めるか
+    public Color fadeColor = Color.black;   //どの色でフェードするか
     private float alpha;                    //アルファ値
     public bool isFading = false;           //フェードしているか否か
     public bool isFadeFinished = false;     //フェードが終わったか否か
@@ -11,7 +11,7 @@ public class FadeManager : MonoBehaviour {
     private int sceneIndex = -1;            //遷移するシーンの番号
     private string sceneName = null;        //遷移するシーンの名前
     private float fadeSpeed = 0.5f;         //値が大きいほど早くフェードする
-    private float waitForSeconds;           //コルーチンの待ち時間
+    private float waitForSeconds = 0f;      //コルーチンの待ち時間
 
 
     public enum FadeMode
@@ -44,7 +44,7 @@ public class FadeManager : MonoBehaviour {
                 alpha -= Time.deltaTime * fadeSpeed;
                 if (alpha <= 0)
                 {
-                    StartCoroutine(FadeFinished(alpha));
+                    FadeFinished(alpha);
                 }
             }
             //フェードアウトして、次のシーンへ遷移する
@@ -53,7 +53,7 @@ public class FadeManager : MonoBehaviour {
                 alpha += Time.deltaTime * fadeSpeed;
                 if (alpha >= 1)
                 {
-                    StartCoroutine(FadeFinished(alpha));                    
+                    FadeFinished(alpha);                    
                 }
             }
             //noneなら
@@ -70,7 +70,7 @@ public class FadeManager : MonoBehaviour {
         this.sceneIndex = sceneIndex;           //シーン遷移の番号
         this.fadeSpeed = fadeSpeed;             //フェードする速さ
         this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
-        isFading = true;
+        StartCoroutine(FadeStop());
     }
 
     //ここにシーン名前を引数にしてアクセスするとフェードが始まる
@@ -79,7 +79,8 @@ public class FadeManager : MonoBehaviour {
         this.sceneName = sceneName;             //シーン遷移の名前
         this.fadeSpeed = fadeSpeed;             //フェードする速さ
         this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
-        isFading = true;
+        StartCoroutine(FadeStop());
+            
     }
 
     //public void ChangeMode(string mode)
@@ -87,11 +88,18 @@ public class FadeManager : MonoBehaviour {
 
     //}
 
-    IEnumerator FadeFinished(float alpha)
+    IEnumerator FadeStop()
     {
-        isFading = false;
         //指定秒数待つ
         yield return new WaitForSeconds(waitForSeconds);
+
+        //Update関数の処理を開始する
+        isFading = true;
+    }
+
+    void FadeFinished(float alpha)
+    {
+        isFading = false;
 
         //画面が黒ならシーン遷移する
         if (alpha >= 1)

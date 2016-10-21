@@ -7,7 +7,7 @@ public class Title : MonoBehaviour {
 
 	void Start () {
         fadeManager = FindObjectOfType<FadeManager>();
-        fadeManager.FadeStart(null, waitForSeconds: 0f);  //指定秒待ってからスタートする
+        //fadeManager.FadeStart(null);
     }
 	
 	

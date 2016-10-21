@@ -7,7 +7,7 @@ public class EnemyStatus : MonoBehaviour
     private Canvas enemyCanvas;                         //HPバー用のCanvas
     public int maxHP = 50;                              //最大体力
     public int HP;                                      //体力
-    private GameObject HPbarPrefab;                          //読み込み用
+    private GameObject HPbarPrefab;                     //読み込み用
     private Slider HPbar;                               //体力ゲージ
     public int strong = 5;                              //強攻撃
     public int normal = 2;                              //中攻撃
@@ -16,9 +16,10 @@ public class EnemyStatus : MonoBehaviour
     public int startIndex = -1;                         //初期位置, RoopGeneratorのnextPos[]へプリセット
     public Vector2 enemyOffset = new Vector2(0f, 0f);   //エネミーの初期位置の調整
     public Vector2 barOffset = new Vector2(0f, -0f);    //バーの初期位置の調整
-
-    private ResultCtrl resultCtrl;
-    private bool isDied = false;                    //死んだかどうか
+    private ResultCtrl resultCtrl;                      //UI系
+    private bool isDied = false;                        //死んだかどうか
+    private Color alpha;
+    public float fadeSpeed = 0.5f;
 
 
     public enum LerpMode
@@ -56,10 +57,21 @@ public class EnemyStatus : MonoBehaviour
     void Update()
     {
         HPbar.value = HP; //受けたダメージをスライダーに反映させる
-        if(HP <= 0 && !isDied)
+
+        if (HP <= 0)
         {
-            resultCtrl.EnemyDead();
-            isDied = true;
+            resultCtrl.isGameStop = true; //ゲームを止める
+
+            alpha = GetComponent<SpriteRenderer>().color;
+            alpha.a -= Time.deltaTime * fadeSpeed;
+            GetComponent<SpriteRenderer>().color = alpha;
+
+            if(!isDied && GetComponent<SpriteRenderer>().color.a <= 0)
+            {
+                resultCtrl.EnemyDead();
+                isDied = true;
+                GetComponent<EnemyStatus>().enabled = false;
+            }
         }
     }
 }
