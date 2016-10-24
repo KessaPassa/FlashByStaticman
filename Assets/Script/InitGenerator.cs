@@ -20,7 +20,8 @@ public class InitGenerator : MonoBehaviour
                 new Vector2(originBg.transform.position.x + i * 32f, originBg.transform.position.y), 
                 Quaternion.identity) as GameObject;
 
-                obj.transform.parent = this.transform;
+            obj.transform.parent = this.transform;
+            obj.name += i;
         }
 
         nextPos = new GameObject[GameObject.FindGameObjectsWithTag("Enemy").Length];

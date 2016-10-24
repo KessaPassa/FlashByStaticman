@@ -3,7 +3,8 @@ using System.Collections;
 
 public class MoveStage : MonoBehaviour
 {
-    public Transform player;
+    public GameObject player;
+    private Animator anim;
     public int winCounter;
     private ResultCtrl resultCtrl;
     public bool isFignhting = true;
@@ -16,20 +17,20 @@ public class MoveStage : MonoBehaviour
 
     void Start()
     {
+        anim = player.GetComponent<Animator>();
         resultCtrl = FindObjectOfType<ResultCtrl>();
-        //battleRSP = FindObjectOfType<BattleRSP>();
     }
 
     void Update()
     {
-        //EnemyStatus enemyStatus = resultCtrl.enemyStatus;
-
-        if(player.position.x >= InitGenerator.nextPos[winCounter].transform.position.x)
+        //playerは固定のため、背景の方を調整する
+        if (player.transform.position.x >= InitGenerator.nextPos[winCounter].transform.position.x - 3.5f)
         {
             if(winCounter != 0)
             {
                 isFignhting = false;
                 resultCtrl.EndAnim();
+                player.GetComponent<PlayerAnim>().EndAnim();
             }
         }
     }
@@ -48,10 +49,13 @@ public class MoveStage : MonoBehaviour
     //引数でとらないと、何故かResultCtrlとBattleRSPがNullReferenceExceptionになる
     public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     {
+        anim.enabled = true;
+        anim.SetBool("Frying", true);
         winCounter++;
         float next = InitGenerator.nextPos[winCounter].transform.position.x - transform.position.x;
         iTween.MoveTo(gameObject, iTween.Hash("x", next * -1f, "time", 1f));
         resultCtrl.anim.SetTrigger("MoveScene");
+        
         battleRSP.EndGame();
     }
 }
