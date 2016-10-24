@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerAnim : MonoBehaviour {
     private Animator anim;
-    public Sprite baseSprite;
+    public Sprite baseSprite;   //基本となる立ち絵
 	
 
 	void Start () {
@@ -14,6 +14,7 @@ public class PlayerAnim : MonoBehaviour {
 	void Update () {
         if (!anim.enabled)
         {
+            //アニメーションがストップしているときは基本スプライトを表示する
             var renderer = GetComponent<SpriteRenderer>();
             if(renderer.sprite != baseSprite)
             {
@@ -21,6 +22,13 @@ public class PlayerAnim : MonoBehaviour {
             }
         }
 	}
+
+    public void EndAnim()
+    {
+        anim.SetBool("Frying", false);
+        anim.SetTrigger("Wait");
+        anim.enabled = false;
+    }
 
     public void AttackAnim(string trigger)
     {

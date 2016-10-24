@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class EnemyStatus : MonoBehaviour
 {
-    private Canvas enemyCanvas;                         //HPバー用のCanvas
     public int maxHP = 50;                              //最大体力
+    [HideInInspector]
     public int HP;                                      //体力
     private GameObject HPbarPrefab;                     //読み込み用
     private Slider HPbar;                               //体力ゲージ
@@ -13,13 +13,14 @@ public class EnemyStatus : MonoBehaviour
     public int normal = 2;                              //中攻撃
     public int weak = 1;                                //弱攻撃
     public float lerpTime = 1;                          //値が大きいほど早くなる
-    public int startIndex = -1;                         //初期位置, RoopGeneratorのnextPos[]へプリセット
+    [SerializeField, Range(-1, 5)]
+    public int startIndex = -1;                         //初期位置, InitGeneratorのnextPos[]へプリセット
     public Vector2 enemyOffset = new Vector2(0f, 0f);   //エネミーの初期位置の調整
     public Vector2 barOffset = new Vector2(0f, -0f);    //バーの初期位置の調整
+    private Canvas enemyCanvas;                         //HPバー用のCanvas
     private ResultCtrl resultCtrl;                      //UI系
     private bool isDied = false;                        //死んだかどうか
-    private Color alpha;
-    public float fadeSpeed = 0.5f;
+    private float fadeSpeed = 1f;                       //死んだときにフェードするスピード
 
 
     public enum LerpMode
@@ -35,7 +36,7 @@ public class EnemyStatus : MonoBehaviour
         transform.position = InitGenerator.InitPos(startIndex);
         //初期位置をoffsetを加味した位置にする
         transform.position = new Vector2(
-            transform.position.x + 3f + enemyOffset.x,
+            transform.position.x + enemyOffset.x + 3f,
             transform.position.y + enemyOffset.y
             );
 
@@ -61,8 +62,9 @@ public class EnemyStatus : MonoBehaviour
         if (HP <= 0)
         {
             resultCtrl.isGameStop = true; //ゲームを止める
+            HPbar.gameObject.SetActive(false);
 
-            alpha = GetComponent<SpriteRenderer>().color;
+            Color alpha = GetComponent<SpriteRenderer>().color;
             alpha.a -= Time.deltaTime * fadeSpeed;
             GetComponent<SpriteRenderer>().color = alpha;
 

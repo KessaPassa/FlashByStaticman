@@ -7,7 +7,7 @@ public class ResultCtrl : MonoBehaviour
 {
     private GameObject[] enemys;        //Enemyを全て取得
     private PlayerStatus playerStatus;  //プレーヤーのステータス
-    private PlayerAnim playerAnim;
+    private PlayerAnim playerAnim;      //プレイヤーのアニメーション
     [HideInInspector]
     public EnemyStatus enemyStatus;     //敵のステータス
     private BattleRSP battleRSP;        //Input系の制御script
@@ -25,6 +25,9 @@ public class ResultCtrl : MonoBehaviour
     public Image predictBg;             //予測手の背景
     public Image predictHand;           //次の手の予測
     private bool isOnHidden = false;    //手が隠されているか否か
+    public Image rockPanel;             //グーのパネル, 何を押しているのか分かるように
+    public Image scissorsPanel;         //チョキのパネル
+    public Image paperPanel;            //パーのパネル
 
 
     void Start()
@@ -123,7 +126,7 @@ public class ResultCtrl : MonoBehaviour
     //勝ったときの手でアニメーションを変更
     public void StartAnim(int playerRSP)
     {
-        string trigger = null; ;
+        string trigger = null;
         if (playerRSP == 0)
         {
             trigger = "Rock";
@@ -135,9 +138,45 @@ public class ResultCtrl : MonoBehaviour
         else if (playerRSP == 2)
         {
             trigger = "Paper";
+           
         }
         anim.SetTrigger(trigger);
         playerAnim.AttackAnim(trigger);
+    }
+
+    //どのボタンを押しているか可視化する
+    public void DownColorHand(int playerRSP)
+    {
+        Color tmp = new Color(255, 255, 255, 0);    //アルファ値は0～1のため
+        float alpha = 0.15f;
+        if(playerRSP == 0)
+        {
+            tmp = rockPanel.color;
+            tmp.a = alpha;
+            rockPanel.color = tmp;
+            StartCoroutine(ReturnColor(rockPanel));
+        }
+        else if(playerRSP == 1)
+        {
+            tmp = scissorsPanel.color;
+            tmp.a = alpha;
+            scissorsPanel.color = tmp;
+            StartCoroutine(ReturnColor(scissorsPanel));
+        }
+        else if(playerRSP == 2)
+        {
+            tmp = paperPanel.color;
+            tmp.a = alpha;
+            paperPanel.color = tmp;
+            StartCoroutine(ReturnColor(paperPanel));
+        }
+
+    }
+
+    IEnumerator ReturnColor(Image panel)
+    {
+        yield return new WaitForSeconds(0.5f);      //少し待ってから色を元に戻す
+        panel.color =  new Color(255, 255, 255, 0);
     }
 
     //敵の次の手を隠す
@@ -180,5 +219,7 @@ public class ResultCtrl : MonoBehaviour
         playerStatus.HP -= 3;
         AudioClip SE = Resources.Load("damaged") as AudioClip; //強攻撃の効果音を取得
         SoundBox.PlayOneShot(SE, 3f); //効果音を鳴らす
+
+        enemys[moveStage.winCounter].GetComponent<Animator>().SetTrigger("Attack");
     }
 }

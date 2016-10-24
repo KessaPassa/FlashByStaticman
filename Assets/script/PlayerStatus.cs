@@ -6,15 +6,16 @@ using UnityEngine.SceneManagement;
 public class PlayerStatus : MonoBehaviour
 {
     public int maxHP = 50;              //最大体力
+    [HideInInspector]
     public int HP;                      //体力
     public Slider HPber;                //体力ゲージ
     public int strong = 5;              //強攻撃
     public int normal = 2;              //中攻撃
     public int weak = 1;                //弱攻撃
     private FadeManager fadeManager;    //シーン遷移の時に使う
-    private BattleRSP battleRSP;
-    private bool isDied = false;
-    private Vector2 startPos;
+    private BattleRSP battleRSP;        //じゃんけん系
+    private bool isDied = false;        //死んだかどうか
+    private Vector2 startPos;           //pingpong関数フワフワするのに使う
 
 
     void Start()

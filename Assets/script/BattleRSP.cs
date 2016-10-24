@@ -82,10 +82,9 @@ public class BattleRSP : MonoBehaviour
                 playerRSP = -1;
             }
 
-
             if (!resultCtrl.isGameStop)
             {
-                
+                resultCtrl.DownColorHand(playerRSP);
                 CheckRSP(playerRSP);
             }
         }
