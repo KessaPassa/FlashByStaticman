@@ -10,7 +10,6 @@ public class PlayerAnim : MonoBehaviour {
         anim = GetComponent<Animator>();
 	}
 	
-	
 	void Update () {
         if (!anim.enabled)
         {
@@ -25,7 +24,6 @@ public class PlayerAnim : MonoBehaviour {
 
     public void EndAnim()
     {
-        anim.SetBool("Frying", false);
         anim.SetTrigger("Wait");
         anim.enabled = false;
     }
