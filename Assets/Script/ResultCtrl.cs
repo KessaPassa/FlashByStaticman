@@ -212,6 +212,12 @@ public class ResultCtrl : MonoBehaviour
         enemyStatus.HP -= 1;
         AudioClip SE = Resources.Load("normal") as AudioClip; //強攻撃の効果音を取得
         SoundBox.PlayOneShot(SE, 3f); //効果音を鳴らす
+
+        //互いにぶつかり合って衝突しているように見せる
+        float range = 1.5f;
+        float time = 0.5f;
+        iTween.MoveFrom(playerStatus.gameObject, iTween.Hash("x", playerStatus.gameObject.transform.position.x + range, "time", time));
+        iTween.MoveFrom(enemyStatus.gameObject, iTween.Hash("x", enemyStatus.gameObject.transform.position.x - range, "time", time));
     }
 
     public void Lose()

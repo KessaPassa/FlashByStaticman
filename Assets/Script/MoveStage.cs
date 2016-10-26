@@ -7,7 +7,8 @@ public class MoveStage : MonoBehaviour
     private Animator anim;
     public int winCounter;
     private ResultCtrl resultCtrl;
-    public bool isFignhting = true;
+    //public bool isFignhting = true;
+    private bool isFrying = false;
 
 
     void Awake()
@@ -24,11 +25,12 @@ public class MoveStage : MonoBehaviour
     void Update()
     {
         //playerは固定のため、背景の方を調整する
-        if (player.transform.position.x >= InitGenerator.nextPos[winCounter].transform.position.x - 3.5f)
+        if (isFrying && player.transform.position.x >= InitGenerator.nextPos[winCounter].transform.position.x - 3.5f)
         {
             if(winCounter != 0)
             {
-                isFignhting = false;
+                //isFignhting = false;
+                isFrying = false;
                 resultCtrl.EndAnim();
                 player.GetComponent<PlayerAnim>().EndAnim();
             }
@@ -50,11 +52,12 @@ public class MoveStage : MonoBehaviour
     public void NextStage(ResultCtrl resultCtrl, BattleRSP battleRSP)
     {
         anim.enabled = true;
-        anim.SetBool("Frying", true);
+        anim.SetTrigger("Frying");
         winCounter++;
         float next = InitGenerator.nextPos[winCounter].transform.position.x - transform.position.x;
         iTween.MoveTo(gameObject, iTween.Hash("x", next * -1f, "time", 1f));
         resultCtrl.anim.SetTrigger("MoveScene");
+        isFrying = true;
         
         battleRSP.EndGame();
     }
