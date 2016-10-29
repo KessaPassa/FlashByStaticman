@@ -32,12 +32,18 @@ public class ResultCtrl : MonoBehaviour
     public Sprite imageinvisible;       //透明の画像
     public Image startAtClick;          //クリックしてスタートの画像
     public Image deadLine;              //この線にじゃんけんの手が触れたらアウト
+    public Image deadSkull;
     public Image predictBg;             //予測手の背景
     public Image predictHand;           //次の手の予測
     public Image rockPanel;             //グーのパネル, 何を押しているのか分かるように
     public Image scissorsPanel;         //チョキのパネル
     public Image paperPanel;            //パーのパネル
     public Image dangerImage;
+    public Image scoreImage;
+    public Text scoreText;
+    public Image timerImage;
+    public Text timertext;
+    public GameObject playerHand;
 
     //音楽関係
     public AudioClip strong;
@@ -48,6 +54,9 @@ public class ResultCtrl : MonoBehaviour
 
     //その他
     private GameObject[] enemys;        //Enemyを全て取得    
+    [HideInInspector]
+    public float scoreTimer;            //スコア加算用のタイマー
+    public float startTime = 30f;      //初期時間
 
 
     void Start()
@@ -66,11 +75,12 @@ public class ResultCtrl : MonoBehaviour
         enemys = enemy.OrderBy(e => Vector2.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
         enemyStatus = enemys[moveStage.winCounter].GetComponent<EnemyStatus>();
 
-        fadeManager.FadeStart(null,waitForSeconds: 2f);  //指定秒待ってからスタートする
+        fadeManager.FadeStart(null, waitForSeconds: 2f);  //指定秒待ってからスタートする
         StaticManager.resultScore = 0;  //バトル毎に初期化しておく
+        scoreTimer = startTime;
     }
 
-    
+
     void Update()
     {
         //ゲームが終わっていれば何もしない
@@ -80,25 +90,43 @@ public class ResultCtrl : MonoBehaviour
             {
                 dangerImage.enabled = false;
                 battleRSP.enabled = true;
+                scoreImage.enabled = true;
+                scoreText.enabled = true;
+                playerHand.SetActive(true);
                 isGameEnd = false;
+
             }
             else
             {
+                predictHand.sprite = imageinvisible;
+                deadLine.enabled = false;
+                deadSkull.enabled = false;
+                predictBg.enabled = false;
                 battleRSP.enabled = false;
+                //scoreImage.enabled = false;
+                //scoreText.enabled = false;
+                timerImage.enabled = false;
+                timertext.enabled = false;
                 return;
             }
         }
-        IsPlayGame();   //ゲームが動いているか
-        //OnHidden();
-
-        float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f); //pingpong関数で0と1を行ったり来たり
-        startAtClick.color = new Color(startAtClick.color.r, startAtClick.color.g, startAtClick.color.b, pingpong); //点めつするようにする
-
-        if (fadeManager.isFadeFinished && isOnce == 0)
+        else
         {
-            isOnce++;
-            anim.SetTrigger("Stamp"); //スタンプを表示
+            IsPlayGame();   //ゲームが動いているか
+            //OnHidden();
+
+            float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f); //pingpong関数で0と1を行ったり来たり
+            startAtClick.color = new Color(startAtClick.color.r, startAtClick.color.g, startAtClick.color.b, pingpong); //点めつするようにする
+
+            if (fadeManager.isFadeFinished && isOnce == 0)
+            {
+                isOnce++;
+                anim.SetTrigger("Stamp"); //スタンプを表示
+            }
         }
+
+        scoreText.text = " Score: " + StaticManager.GetResultSocre();
+        timertext.text = " Time : " + scoreTimer.ToString("N2");
     }
 
     void IsPlayGame()
@@ -112,8 +140,13 @@ public class ResultCtrl : MonoBehaviour
                 isOnce++;
                 isGameStop = false;
                 deadLine.enabled = true;
+                deadSkull.enabled = true;
                 predictBg.enabled = true;
                 startAtClick.enabled = false;   //点滅を消す
+                scoreImage.enabled = true;
+                scoreText.enabled = true;
+                timerImage.enabled =true;
+                timertext.enabled = true;
                 EndAnim();
                 battleRSP.StartGame();
             }
@@ -122,8 +155,13 @@ public class ResultCtrl : MonoBehaviour
             {
                 isGameStop = false;
                 deadLine.enabled = true;
+                deadSkull.enabled = true;
                 predictBg.enabled = true;
                 startAtClick.enabled = false;   //点滅を消す
+                scoreImage.enabled = true;
+                scoreText.enabled = true;
+                timerImage.enabled =true;
+                timertext.enabled = true;
                 EndAnim();
                 battleRSP.StartGame();
             }
@@ -131,20 +169,30 @@ public class ResultCtrl : MonoBehaviour
             {
                 predictHand.sprite = imageinvisible;
                 deadLine.enabled = false;
+                deadSkull.enabled = false;
                 predictBg.enabled = false;
                 battleRSP.enabled = false;
+                //scoreImage.enabled = false;
+                //scoreText.enabled = false;
+                timerImage.enabled = false;
+                timertext.enabled = false;
             }
         }
         //止まっていないならscriptをオンにして正常に動かす
         else
         {
+            scoreTimer -= Time.deltaTime;
+            if(scoreTimer <= 0)
+            {
+                scoreTimer = 0f;
+            }
             battleRSP.enabled = true;
             predictHand.sprite = battleRSP.appearHand[1].sprite;
         }
     }
 
     public void EnemyDead()
-    { 
+    {
         //敵がまだ居るのならステージ移動する
         if (moveStage.winCounter < InitGenerator.nextPos.Length - 1)
         {
@@ -156,8 +204,13 @@ public class ResultCtrl : MonoBehaviour
                 SoundBox.PlayOneShot(dangerSound, 3f);
                 isGameEnd = true;
                 dangerImage.enabled = true;
+                deadSkull.enabled = true;
                 flashingManager.FadeStart();
+                scoreImage.enabled = false;
+                scoreText.enabled = false;
+                playerHand.SetActive(false);
             }
+            scoreTimer = startTime; //スコアタイマーを初期化
         }
         //もう居ないのなら終了
         else
@@ -192,7 +245,7 @@ public class ResultCtrl : MonoBehaviour
         else if (playerRSP == 2)
         {
             trigger = "Paper";
-           
+
         }
         anim.SetTrigger(trigger);
         playerAnim.DoingAnim(trigger);
@@ -208,26 +261,47 @@ public class ResultCtrl : MonoBehaviour
     {
         Color tmp = new Color(255, 255, 255, 0);    //アルファ値は0～1のため
         float alpha = 0.15f;
-        if(playerRSP == 0)
+        if (playerRSP == 0)
         {
             tmp = rockPanel.color;
             tmp.a = alpha;
             rockPanel.color = tmp;
             StartCoroutine(ReturnColor(rockPanel));
+
+            Image child = rockPanel.transform.FindChild("Panel").GetComponent<Image>();
+            tmp = child.color;
+            child.color = tmp;
+            tmp.a = alpha;
+            child.color = tmp;
+            StartCoroutine(ReturnColorBlack(child));
         }
-        else if(playerRSP == 1)
+        else if (playerRSP == 1)
         {
             tmp = scissorsPanel.color;
             tmp.a = alpha;
             scissorsPanel.color = tmp;
             StartCoroutine(ReturnColor(scissorsPanel));
+
+            Image child = scissorsPanel.transform.FindChild("Panel").GetComponent<Image>();
+            tmp = child.color;
+            child.color = tmp;
+            tmp.a = alpha;
+            child.color = tmp;
+            StartCoroutine(ReturnColorBlack(child));
         }
-        else if(playerRSP == 2)
+        else if (playerRSP == 2)
         {
             tmp = paperPanel.color;
             tmp.a = alpha;
             paperPanel.color = tmp;
             StartCoroutine(ReturnColor(paperPanel));
+
+            Image child = paperPanel.transform.FindChild("Panel").GetComponent<Image>();
+            tmp = child.color;
+            child.color = tmp;
+            tmp.a = alpha;
+            child.color = tmp;
+            StartCoroutine(ReturnColorBlack(child));
         }
 
     }
@@ -235,7 +309,13 @@ public class ResultCtrl : MonoBehaviour
     IEnumerator ReturnColor(Image panel)
     {
         yield return new WaitForSeconds(0.5f);      //少し待ってから色を元に戻す
-        panel.color =  new Color(255, 255, 255, 0);
+        panel.color = new Color(255, 255, 255, 0);
+    }
+
+    IEnumerator ReturnColorBlack(Image panel)
+    {
+        yield return new WaitForSeconds(0.5f);      //少し待ってから色を元に戻す
+        panel.color = new Color(0, 0, 0, 0);
     }
 
     //敵の次の手を隠す
@@ -269,6 +349,7 @@ public class ResultCtrl : MonoBehaviour
         playerStatus.HP -= enemyStatus.drow;
         enemyStatus.HP -= playerStatus.drow;
         SoundBox.PlayOneShot(normal, 3f); //効果音を鳴らす
+        scoreTimer -= 0.5f;
 
         //互いにぶつかり合って衝突しているように見せる
         float range = 1.5f;
@@ -284,6 +365,7 @@ public class ResultCtrl : MonoBehaviour
 
         playerAnim.DoingAnim("Damaged");
         enemys[moveStage.winCounter].GetComponent<Animator>().SetTrigger("Attack");
+        scoreTimer -= 1f;
     }
 
     public void IsStampFinished()

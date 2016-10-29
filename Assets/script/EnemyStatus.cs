@@ -75,8 +75,6 @@ public class EnemyStatus : MonoBehaviour
         HPbar.transform.position = new Vector2(transform.position.x + barOffset.x, transform.position.y - 1.5f + barOffset.y);
 
         resultCtrl = FindObjectOfType<ResultCtrl>();
-
-        
     }
 
 
@@ -96,6 +94,10 @@ public class EnemyStatus : MonoBehaviour
             if(!isDied && GetComponent<SpriteRenderer>().color.a <= 0)
             {
                 //死んだらスコアを加算
+                if (resultCtrl.scoreTimer > 10f)
+                {
+                    score *= (int)(resultCtrl.scoreTimer / 10f);
+                }
                 StaticManager.AddScore(score);
                 resultCtrl.EnemyDead();
                 isDied = true;
