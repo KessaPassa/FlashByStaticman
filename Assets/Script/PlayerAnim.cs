@@ -28,7 +28,7 @@ public class PlayerAnim : MonoBehaviour {
         anim.enabled = false;
     }
 
-    public void AttackAnim(string trigger)
+    public void DoingAnim(string trigger)
     {
         anim.enabled = true;
         anim.SetTrigger(trigger);

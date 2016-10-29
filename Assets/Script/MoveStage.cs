@@ -8,13 +8,8 @@ public class MoveStage : MonoBehaviour
     public int winCounter;
     private ResultCtrl resultCtrl;
     //public bool isFignhting = true;
-    private bool isFrying = false;
+    public bool isFrying = false;
 
-
-    void Awake()
-    {
-        winCounter = 0;
-    }
 
     void Start()
     {
