@@ -45,7 +45,6 @@ public class BattleRSP : MonoBehaviour
         resultCtrl.isGameStop = true;
         for (int i = 0; i < originHand.Length; i++)
         {
-            //appearHand[i].enabled = false;
             Destroy(appearHand[i].gameObject);
         }
         GetComponent<BattleRSP>().enabled = false;
@@ -68,7 +67,7 @@ public class BattleRSP : MonoBehaviour
                 playerRSP = 0;
             }
             //チョキ
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.W))
             {
                 playerRSP = 1;
             }
@@ -192,11 +191,11 @@ public class BattleRSP : MonoBehaviour
             appearHand[i] = appearHand[i + 1];
         }
 
-        //名前を１つずつずらす
-        for (int i = 0; i < appearHand.Length - 1; i++)
-        {
-            appearHand[i].name = originHand[i].name;
-        }
+        ////名前を１つずつずらす
+        //for (int i = 0; i < appearHand.Length - 1; i++)
+        //{
+        //    appearHand[i].name = originHand[i].name;
+        //}
 
         //インスタンス生成
         appearHand[appearHand.Length - 1] = Instantiate(

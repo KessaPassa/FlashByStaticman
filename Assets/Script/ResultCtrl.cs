@@ -5,7 +5,7 @@ using System.Linq;
 
 public class ResultCtrl : MonoBehaviour
 {
-    private GameObject[] enemys;        //Enemyを全て取得
+    //スクリプト関係
     private PlayerStatus playerStatus;  //プレーヤーのステータス
     private PlayerAnim playerAnim;      //プレイヤーのアニメーション
     [HideInInspector]
@@ -13,21 +13,41 @@ public class ResultCtrl : MonoBehaviour
     private BattleRSP battleRSP;        //Input系の制御script
     private MoveStage moveStage;        //敵を撃破時に移動制御するscript
     private FadeManager fadeManager;    //フェードを管理するスクリプト
+    private FlashingManager flashingManager;
+
+    //コンポーネント関係
     private AudioSource SoundBox;       //PlayOneShot用の空箱
     public Animator anim;               //Animation用の空箱
+
+    //真偽値関係
+    public bool isGameStop = true;      //ゲームが動いているかどうか
+    private bool isGameEnd = false;     //クリア or ゲームオーバーしてゲームが終わったか
+    private bool isOnHidden = false;    //手が隠されているか否か
+    private bool isStampFinished = false;
+    private int isOnce = 0;             //1回だけ通したい場合のbool値, 使う度に+1される
+
+    //画像関係
     public Image result;                //じゃんけん判定を表示
     public Sprite imageCongra;          //終了画像
     public Sprite imageinvisible;       //透明の画像
-    public bool isGameStop = true;      //ゲームが動いているかどうか
-    private bool isGameEnd = false;     //クリア or ゲームオーバーしてゲームが終わったか
     public Image startAtClick;          //クリックしてスタートの画像
     public Image deadLine;              //この線にじゃんけんの手が触れたらアウト
     public Image predictBg;             //予測手の背景
     public Image predictHand;           //次の手の予測
-    private bool isOnHidden = false;    //手が隠されているか否か
     public Image rockPanel;             //グーのパネル, 何を押しているのか分かるように
     public Image scissorsPanel;         //チョキのパネル
     public Image paperPanel;            //パーのパネル
+    public Image dangerImage;
+
+    //音楽関係
+    public AudioClip strong;
+    public AudioClip normal;
+    public AudioClip weak;
+    public AudioClip damaged;
+    public AudioClip dangerSound;
+
+    //その他
+    private GameObject[] enemys;        //Enemyを全て取得    
 
 
     void Start()
@@ -36,16 +56,18 @@ public class ResultCtrl : MonoBehaviour
         playerAnim = FindObjectOfType<PlayerAnim>();
         battleRSP = FindObjectOfType<BattleRSP>();
         moveStage = FindObjectOfType<MoveStage>();
-        //initGenerator = FindObjectOfType<InitGenerator>();
         fadeManager = FindObjectOfType<FadeManager>();
+        flashingManager = FindObjectOfType<FlashingManager>();
+
         SoundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
         anim = GameObject.FindWithTag("AnimCtrl").GetComponent<Animator>();
+
         GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");//.ToArray();
         enemys = enemy.OrderBy(e => Vector2.Distance(e.transform.position, transform.position)).ToArray(); //距離順でソートする
         enemyStatus = enemys[moveStage.winCounter].GetComponent<EnemyStatus>();
 
-        anim.SetTrigger("Stamp"); //スタンプを表示
-        fadeManager.FadeStart(null,waitForSeconds: 0f);  //指定秒待ってからスタートする
+        fadeManager.FadeStart(null,waitForSeconds: 2f);  //指定秒待ってからスタートする
+        StaticManager.resultScore = 0;  //バトル毎に初期化しておく
     }
 
     
@@ -54,14 +76,29 @@ public class ResultCtrl : MonoBehaviour
         //ゲームが終わっていれば何もしない
         if (isGameEnd)
         {
-            battleRSP.enabled = false;
-            return;
+            if (flashingManager.isAllRepeatFinished)
+            {
+                dangerImage.enabled = false;
+                battleRSP.enabled = true;
+                isGameEnd = false;
+            }
+            else
+            {
+                battleRSP.enabled = false;
+                return;
+            }
         }
         IsPlayGame();   //ゲームが動いているか
-        OnHidden();
+        //OnHidden();
 
         float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f); //pingpong関数で0と1を行ったり来たり
         startAtClick.color = new Color(startAtClick.color.r, startAtClick.color.g, startAtClick.color.b, pingpong); //点めつするようにする
+
+        if (fadeManager.isFadeFinished && isOnce == 0)
+        {
+            isOnce++;
+            anim.SetTrigger("Stamp"); //スタンプを表示
+        }
     }
 
     void IsPlayGame()
@@ -69,9 +106,19 @@ public class ResultCtrl : MonoBehaviour
         //ゲームが止まっているなら
         if (isGameStop)
         {
-            //なにか押すと、スタンプが消えゲームスタート
-            if (fadeManager.isFadeFinished && Input.anyKeyDown)
-            //if(fadeManager.isFadeFinished && Input.anyKeyDown && playerStatus.gameObject.transform.position.x >= InitGenerator.nextPos[moveStage.winCounter].transform.position.x - 3f)
+            //ゲームスタート, 初めだけだけここ
+            if (fadeManager.isFadeFinished && isOnce == 1 && isStampFinished)
+            {
+                isOnce++;
+                isGameStop = false;
+                deadLine.enabled = true;
+                predictBg.enabled = true;
+                startAtClick.enabled = false;   //点滅を消す
+                EndAnim();
+                battleRSP.StartGame();
+            }
+            //2回目以降はここ
+            else if (fadeManager.isFadeFinished && isOnce == 2 && !moveStage.isFrying)
             {
                 isGameStop = false;
                 deadLine.enabled = true;
@@ -104,6 +151,13 @@ public class ResultCtrl : MonoBehaviour
             //result.GetComponent<Image>().sprite = imageinvisible; //ステージ移動時は画像が無いようにする
             moveStage.NextStage(GetComponent<ResultCtrl>(), battleRSP); //ステージ移動
             enemyStatus = enemys[moveStage.winCounter].GetComponent<EnemyStatus>(); //新しい敵のステータスを取得
+            if (moveStage.winCounter == 4)
+            {
+                SoundBox.PlayOneShot(dangerSound, 3f);
+                isGameEnd = true;
+                dangerImage.enabled = true;
+                flashingManager.FadeStart();
+            }
         }
         //もう居ないのなら終了
         else
@@ -113,7 +167,7 @@ public class ResultCtrl : MonoBehaviour
             result.GetComponent<Image>().sprite = imageCongra;
             fadeManager.isFadeFinished = false;
             fadeManager.fadeMode = FadeManager.FadeMode.close;
-            fadeManager.FadeStart("Title", waitForSeconds: 3f);
+            fadeManager.FadeStart("Clear", waitForSeconds: 3f);
         }
     }
 
@@ -141,7 +195,12 @@ public class ResultCtrl : MonoBehaviour
            
         }
         anim.SetTrigger(trigger);
-        playerAnim.AttackAnim(trigger);
+        playerAnim.DoingAnim(trigger);
+    }
+
+    public void StartAnim(string trigger)
+    {
+        playerAnim.DoingAnim(trigger);
     }
 
     //どのボタンを押しているか可視化する
@@ -201,17 +260,15 @@ public class ResultCtrl : MonoBehaviour
 
     public void Win()
     {
-        enemyStatus.HP -= 3;
-        AudioClip SE = Resources.Load("strong") as AudioClip; //強攻撃の効果音を取得
-        SoundBox.PlayOneShot(SE, 3f); //効果音を鳴らす
+        enemyStatus.HP -= playerStatus.win;
+        SoundBox.PlayOneShot(strong, 3f); //効果音を鳴らす
     }
 
     public void Drow()
     {
-        playerStatus.HP -= 1;
-        enemyStatus.HP -= 1;
-        AudioClip SE = Resources.Load("normal") as AudioClip; //強攻撃の効果音を取得
-        SoundBox.PlayOneShot(SE, 3f); //効果音を鳴らす
+        playerStatus.HP -= enemyStatus.drow;
+        enemyStatus.HP -= playerStatus.drow;
+        SoundBox.PlayOneShot(normal, 3f); //効果音を鳴らす
 
         //互いにぶつかり合って衝突しているように見せる
         float range = 1.5f;
@@ -222,10 +279,15 @@ public class ResultCtrl : MonoBehaviour
 
     public void Lose()
     {
-        playerStatus.HP -= 3;
-        AudioClip SE = Resources.Load("damaged") as AudioClip; //強攻撃の効果音を取得
-        SoundBox.PlayOneShot(SE, 3f); //効果音を鳴らす
+        playerStatus.HP -= enemyStatus.win;
+        SoundBox.PlayOneShot(damaged, 3f); //効果音を鳴らす
 
+        playerAnim.DoingAnim("Damaged");
         enemys[moveStage.winCounter].GetComponent<Animator>().SetTrigger("Attack");
+    }
+
+    public void IsStampFinished()
+    {
+        isStampFinished = true;
     }
 }

@@ -3,29 +3,24 @@ using System.Collections;
 
 public class Title : MonoBehaviour {
     private FadeManager fadeManager;
-    public GameObject player;
-    private Vector2 startPos;
+    
 
 	void Start () {
         fadeManager = FindObjectOfType<FadeManager>();
-        //fadeManager.FadeStart(null);
-        startPos = player.transform.position;
+        SelectArrow.StartSelect();
     }
 	
 	
 	void Update () {
-        //上下にフワフワ揺らす
-        float range = 0.5f;
-        var pingpong = Mathf.PingPong(Time.time * 0.4f, range / 2f) - range;
-        player.transform.position = new Vector2(startPos.x, startPos.y + pingpong);
+        
     }
 
-    public void OnStaartButton()
+    public void OnStartButton()
     {
         if (fadeManager.isFadeFinished)
         {
             fadeManager.fadeMode = FadeManager.FadeMode.close;
-            fadeManager.FadeStart(1);
+            fadeManager.FadeStart(3);
         }
     }
 
@@ -37,4 +32,13 @@ public class Title : MonoBehaviour {
             fadeManager.FadeStart("Tutorial");
         }
     }
+
+    //public void OnQuitButton()
+    //{
+    //    if (fadeManager.isFadeFinished)
+    //    {
+    //        fadeManager.fadeMode = FadeManager.FadeMode.close;
+    //        fadeManager.FadeStart("Quit()");
+    //    }
+    //}
 }

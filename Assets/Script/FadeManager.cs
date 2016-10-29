@@ -67,20 +67,27 @@ public class FadeManager : MonoBehaviour {
     //ここにシーン番号を引数にしてアクセスするとフェードが始まる
     public void FadeStart(int sceneIndex, float fadeSpeed = 0.5f, float waitForSeconds = 0f)
     {
-        this.sceneIndex = sceneIndex;           //シーン遷移の番号
-        this.fadeSpeed = fadeSpeed;             //フェードする速さ
-        this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
-        StartCoroutine(FadeStop());
+        //フェード中に干渉しないように
+        if (this.sceneIndex == -1 && this.sceneName == null)
+        {
+            this.sceneIndex = sceneIndex;           //シーン遷移の番号
+            this.fadeSpeed = fadeSpeed;             //フェードする速さ
+            this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
+            StartCoroutine(FadeStop());
+        }
     }
 
     //ここにシーン名前を引数にしてアクセスするとフェードが始まる
     public void FadeStart(string sceneName, float fadeSpeed = 0.5f, float waitForSeconds = 0f)
     {
-        this.sceneName = sceneName;             //シーン遷移の名前
-        this.fadeSpeed = fadeSpeed;             //フェードする速さ
-        this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
-        StartCoroutine(FadeStop());
-            
+        //フェード中に干渉しないように
+        if (this.sceneIndex == -1 && this.sceneName == null)
+        {
+            this.sceneName = sceneName;             //シーン遷移の名前
+            this.fadeSpeed = fadeSpeed;             //フェードする速さ
+            this.waitForSeconds = waitForSeconds;   //シーン遷移までの時間
+            StartCoroutine(FadeStop());
+        }
     }
 
     //public void ChangeMode(string mode)
@@ -112,7 +119,11 @@ public class FadeManager : MonoBehaviour {
 
     void TransitionScene()
     {
-        if (sceneIndex != -1)
+        if(sceneName == "Quit()")
+        {
+            Application.Quit();
+        }
+        else if (sceneIndex != -1)
         {
             SceneManager.LoadScene(sceneIndex);
         }
