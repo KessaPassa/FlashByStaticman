@@ -23,11 +23,11 @@ public class LerpManager : MonoBehaviour {
         this.diff = diff;
         this.lerpTime = enemyStatus.lerpTime;
 
-        if (enemyStatus.lerpMode == EnemyStatus.LerpMode.normal)
+        if (enemyStatus.lerpMode == EnemyStatus.LerpMode.Normal)
         {
             NormalLerp();
         }
-        else if(enemyStatus.lerpMode == EnemyStatus.LerpMode.sin)
+        else if(enemyStatus.lerpMode == EnemyStatus.LerpMode.Sin)
         {
             SinLerp();
         }
