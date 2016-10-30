@@ -12,7 +12,7 @@ public class StaticManager : MonoBehaviour {
         Normal,
         Hard
     }
-    public DifficultyMode diffycultyMode;
+    public DifficultyMode difficultyMode;
 
 
     void Start()
@@ -38,6 +38,11 @@ public class StaticManager : MonoBehaviour {
     void Update()
     {
         //totalScore = resultScore + clearBonus;
+    }
+
+    public void ChangeMode(DifficultyMode mode)
+    {
+        difficultyMode = mode;
     }
     
     //スコアを加算

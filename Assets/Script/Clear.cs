@@ -9,6 +9,7 @@ public class Clear : MonoBehaviour
     public float rotateSpeed;
     private AudioSource soundBox;
     public AudioClip rollSE;
+    public AudioClip clapSE;
     private int isOnce = 1;
     private float resultScore = -1;
     public Text pushText;
@@ -39,9 +40,11 @@ public class Clear : MonoBehaviour
             scoreText.text = resultScore.ToString("N0");
             if (!soundBox.isPlaying || resultScore >= StaticManager.GetResultSocre())
             {
+                isOnce++;
+                soundBox.PlayOneShot(clapSE, 3f);
                 scoreText.text = StaticManager.GetResultSocre().ToString();
                 fadeManager.fadeMode = FadeManager.FadeMode.close;
-                fadeManager.FadeStart("Title", waitForSeconds: 2f);
+                fadeManager.FadeStart("Title", fadeSpeed: 0.3f, waitForSeconds: 4f);
             }
         }
     }

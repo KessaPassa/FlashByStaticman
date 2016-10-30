@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class GameOver : MonoBehaviour {
     private FadeManager fadeManager;
     private Animator anim;
-    private Image image;
-    private Sprite baseSprite;
+    private SpriteRenderer spriteRenderer;
+    public Sprite baseSprite;
     private bool isOnce = false;
     public Image retryImage;
     private Text retryComment;
@@ -16,6 +16,10 @@ public class GameOver : MonoBehaviour {
     public Vector3 offset;
     public Button continueButton;
     public Button quitButton;
+    public AudioSource soundBox;
+    public AudioClip decitionSE;
+    private StaticManager staticManager;
+    private SelectArrow selectArrow;
 
 
     void Start() {
@@ -23,9 +27,12 @@ public class GameOver : MonoBehaviour {
         fadeManager.FadeStart(null, fadeSpeed: 1f);
 
         anim = GetComponent<Animator>();
-        image = GetComponent<Image>();
-        baseSprite = image.sprite;
+        //image = GetComponent<Image>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        //baseSprite = image.sprite;
         retryComment = retryImage.transform.FindChild("Text").GetComponent<Text>();
+        staticManager = FindObjectOfType<StaticManager>();
+        selectArrow = FindObjectOfType<SelectArrow>();
 
         //見えないようにしておく
         retryImage.color = new Color(255, 255, 255, 0);
@@ -51,7 +58,7 @@ public class GameOver : MonoBehaviour {
             //selectArrow.enabled = true;
             continueButton.gameObject.SetActive(true);
             quitButton.gameObject.SetActive(true);
-            SelectArrow.StartSelect();
+            selectArrow.StartSelect();
         }
 
         if (fadeManager.isFadeFinished && !isOnce)
@@ -63,20 +70,17 @@ public class GameOver : MonoBehaviour {
         if (!anim.enabled)
         {
             //アニメーションがストップしているときは基本スプライトを表示する
-            if (image.sprite != baseSprite)
+            if (spriteRenderer.sprite != baseSprite)
             {
-                image.sprite = baseSprite;
+                spriteRenderer.sprite = baseSprite;
             }
         }
-        ////スキップ
-        //else if (Input.anyKeyDown)
-        //{
-        //    transform.position = 
-        //        new Vector3(transform.position.x+offset.x, 
-        //        transform.position.y + offset.y, 
-        //        transform.position.z + offset.z);
-        //    EndAnim();
-        //}
+        //スキップ
+        else if (Input.anyKeyDown)
+        {
+            transform.position = new Vector2(-1.22f, transform.position.y);
+            EndAnim();
+        }
     }
 
     public void EndAnim()
@@ -87,14 +91,37 @@ public class GameOver : MonoBehaviour {
 
     public void OnContinueButton()
     {
-        fadeManager.fadeMode = FadeManager.FadeMode.close;
-        fadeManager.FadeStart(3);
+        if (!fadeManager.isFading)
+        {
+            int index = -1;
+            switch (staticManager.difficultyMode)
+            {
+                case StaticManager.DifficultyMode.Easy:
+                    index = 3;
+                    break;
+
+                case StaticManager.DifficultyMode.Normal:
+                    index = 4;
+                    break;
+
+                case StaticManager.DifficultyMode.Hard:
+                    index = 5;
+                    break;
+            }
+
+            soundBox.PlayOneShot(decitionSE, 1f);
+            fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart(index);
+        }
     }
 
     public void OnQuitButton()
     {
-        fadeManager.fadeMode = FadeManager.FadeMode.close;
-        fadeManager.FadeStart("Title");
+        if (!fadeManager.isFading)
+        {
+            soundBox.PlayOneShot(decitionSE, 1f);
+            fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart("Title");
+        }
     }
-
 }

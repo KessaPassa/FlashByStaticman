@@ -349,7 +349,7 @@ public class ResultCtrl : MonoBehaviour
         float castedDiff = -Camera.main.ScreenToWorldPoint(diff).x;
 
         float coefficient = 1;
-        switch (staticManager.diffycultyMode)
+        switch (staticManager.difficultyMode)
         {
             case StaticManager.DifficultyMode.Easy:
                 coefficient = 10;

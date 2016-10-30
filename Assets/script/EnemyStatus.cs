@@ -44,7 +44,7 @@ public class EnemyStatus : MonoBehaviour
         staticManager = FindObjectOfType<StaticManager>();
         //難易度によってステータスに係数をかける
         float coefficient = 1;
-        switch (staticManager.diffycultyMode)
+        switch (staticManager.difficultyMode)
         {
             case StaticManager.DifficultyMode.Easy:
                 coefficient = 1;
