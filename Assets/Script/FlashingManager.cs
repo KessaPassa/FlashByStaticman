@@ -12,10 +12,13 @@ public class FlashingManager : MonoBehaviour
     public float fadeSpeed;                     //フェードする速さ
     [SerializeField, TooltipAttribute("ComponentTypeがGameObject型のときのみ使用する")]
     public float fadeTime;                      //GameObjectのiTween用
-    public int isRepeat;                        //透過と元に戻るを繰り返すか
+    public int isRepeat;                        //何回リピートするのか
     private int repeatCount = 0;                //リピートした回数
+    public bool infinityRepeat = false;         //無限ループするかしないか
     public bool isFadeStart = false;            //フェードを始めても良いか
     public bool isFadeFinished = false;         //フェードが終わったか
+    public bool isFadeOutFinished = false;      //フェードアウトが終わったか
+    public bool isFadeInFinished = false;       //フェードインが終わったか
     public bool isAllRepeatFinished = false;    //リピートも終わり、すべてのフェードが終わったか
 
     //アルファ値がどこまでの間を通るか
@@ -76,6 +79,8 @@ public class FlashingManager : MonoBehaviour
         {
             alpha = maxAlpha; //透明から始まる
         }
+        isFadeOutFinished = false;
+        isFadeInFinished = false;
     }
 
 
@@ -103,14 +108,24 @@ public class FlashingManager : MonoBehaviour
                 default:
                     break;
             }
+
+            if(isFadeOutFinished || isFadeInFinished)
+            {
+                isFadeFinished = true;
+            }
+            else
+            {
+                isFadeFinished = false;
+            }
+
             //フェードをリピートする
-            if (isFadeFinished && repeatCount < isRepeat)
+            if (isFadeFinished && (repeatCount < isRepeat || infinityRepeat))
             {
                 isFadeFinished = false;
                 repeatCount++;
                 FadeRepeat();
             }
-            else if(repeatCount >= isRepeat)
+            else if(repeatCount >= isRepeat && !infinityRepeat)
             {
                 isAllRepeatFinished = true;
             }
@@ -126,7 +141,8 @@ public class FlashingManager : MonoBehaviour
             {
                 //これ以上上げない
                 alpha = maxAlpha;
-                isFadeFinished = true;
+                isFadeInFinished = true;
+
             }
         }
         else if (fadeType == FadeType.Out)
@@ -135,7 +151,7 @@ public class FlashingManager : MonoBehaviour
             {
                 //これ以上下げない
                 alpha = minAlpha;
-                isFadeFinished = true;
+                isFadeOutFinished = true;
             }
         }
     }

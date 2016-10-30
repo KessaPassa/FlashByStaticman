@@ -23,7 +23,7 @@ public class PlayerStatus : MonoBehaviour
     {
         staticManager = FindObjectOfType<StaticManager>();
         float coefficient = 1;
-        switch (staticManager.diffycultyMode)
+        switch (staticManager.difficultyMode)
         {
             case StaticManager.DifficultyMode.Easy:
                 coefficient = 1;

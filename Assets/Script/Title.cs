@@ -1,26 +1,56 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Title : MonoBehaviour {
     private FadeManager fadeManager;
-    
+    private StaticManager staticManager;
+    private TitleSelect titleSelect;
+    private AudioSource soundBox;
+    public AudioClip decitionSE;
+    public AudioClip cancelSE;
+    public GameObject allButton;
+    public GameObject allImage;
+    private int isOnce = 1;
 
-	void Start () {
+    void Start () {
         fadeManager = FindObjectOfType<FadeManager>();
-        SelectArrow.StartSelect();
+        staticManager = FindObjectOfType<StaticManager>();
+        titleSelect = FindObjectOfType<TitleSelect>();
+        soundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
     }
 	
 	
 	void Update () {
+        if (fadeManager.isFadeFinished && isOnce == 1)
+        {
+            isOnce++;
+            titleSelect.StartSelect();
+        }
         
+        if (Input.GetKeyDown(KeyCode.Backspace) && titleSelect.isStartSelect)
+        {
+            allButton.gameObject.SetActive(false);
+            allImage.gameObject.SetActive(false);
+
+            soundBox.PlayOneShot(cancelSE, 1f);
+            titleSelect.isOnChild = false;
+            titleSelect.selectButton[0].Select();
+            titleSelect.gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+        }
     }
 
     public void OnStartButton()
     {
         if (fadeManager.isFadeFinished)
         {
-            fadeManager.fadeMode = FadeManager.FadeMode.close;
-            fadeManager.FadeStart(3);
+            allButton.gameObject.SetActive(true);
+            allImage.gameObject.SetActive(true);
+
+            soundBox.PlayOneShot(decitionSE, 1f);
+            titleSelect.isOnChild = true;
+            titleSelect.childButton[0].Select();
+            titleSelect.gameObject.transform.rotation = new Quaternion(0, 0, 180, 0);
         }
     }
 
@@ -28,6 +58,8 @@ public class Title : MonoBehaviour {
     {
         if (fadeManager.isFadeFinished)
         {
+            titleSelect.isStartSelect = false;
+            soundBox.PlayOneShot(decitionSE, 1f);
             fadeManager.fadeMode = FadeManager.FadeMode.close;
             fadeManager.FadeStart("Tutorial");
         }
@@ -41,4 +73,31 @@ public class Title : MonoBehaviour {
     //        fadeManager.FadeStart("Quit()");
     //    }
     //}
+
+    public void OnEasy()
+    {
+        titleSelect.isStartSelect = false;
+        soundBox.PlayOneShot(decitionSE, 1f);
+        staticManager.ChangeMode(StaticManager.DifficultyMode.Easy);
+        fadeManager.fadeMode = FadeManager.FadeMode.close;
+        fadeManager.FadeStart(3);
+    }
+
+    public void OnNormal()
+    {
+        titleSelect.isStartSelect = false;
+        soundBox.PlayOneShot(decitionSE, 1f);
+        staticManager.ChangeMode(StaticManager.DifficultyMode.Normal);
+        fadeManager.fadeMode = FadeManager.FadeMode.close;
+        fadeManager.FadeStart(4);
+    }
+
+    public void OnHard()
+    {
+        titleSelect.isStartSelect = false;
+        soundBox.PlayOneShot(decitionSE, 1f);
+        staticManager.ChangeMode(StaticManager.DifficultyMode.Hard);
+        fadeManager.fadeMode = FadeManager.FadeMode.close;
+        fadeManager.FadeStart(5);
+    }
 }

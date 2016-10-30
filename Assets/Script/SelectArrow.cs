@@ -5,11 +5,13 @@ using UnityEngine.EventSystems;
 
 public class SelectArrow : MonoBehaviour {
     public Button[] selectButton;       //選択ボタン
-    private EventSystem eventSystem;    //Button.Select()を使うのに必要
-    public Vector3 distance;            //カーソルの位置調整
-    private GameObject currentSelected; //現在取得しているボタン
-    private GameObject lastSelected;    //最後に正常に取得したボタン, バックアップ用
-    static public bool isStartSelect;   //画像を表示し、選択を開始して良いか
+    protected EventSystem eventSystem;    //Button.Select()を使うのに必要
+    public AudioSource soundBox;       //効果音ようのAudioSourceの空箱
+    public AudioClip selectSE;          //選択ボタンの効果音
+    public Vector3 offset;            //カーソルの位置調整
+    protected GameObject currentSelected; //現在取得しているボタン
+    protected GameObject lastSelected;    //最後に正常に取得したボタン, バックアップ用
+    public bool isStartSelect;   //画像を表示し、選択を開始して良いか
 
 
     void Awake()
@@ -18,14 +20,25 @@ public class SelectArrow : MonoBehaviour {
     }
 
     void Start () {
+        SelectedStart();
+    }
+
+    public void SelectedStart()
+    {
         eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.enabled = false;
         GetComponent<Image>().enabled = false; //初期状態ではカーソルを見せない
         selectButton[0].Select();
         lastSelected = selectButton[0].gameObject;
         //Cursor.visible = false; //カーソル非表示
     }
 
-	void Update () {
+    void Update () {
+        SelectedUpdate();
+    }
+
+    public void SelectedUpdate()
+    {
         if (isStartSelect)
         {
             //クリックしてnullになってしまったら
@@ -49,23 +62,33 @@ public class SelectArrow : MonoBehaviour {
                 }
             }
         }
+        else
+        {
+            eventSystem.enabled = false;
+        }
     }
 
     //カーソルの位置を動かす + lastボタンにバックアップを取る
-    void AjustPosition(GameObject newPos)
+    public void AjustPosition(GameObject newPos)
     {
         //カーソルの位置調整
         Vector3 pos = newPos.transform.position;
-        transform.position = new Vector3(pos.x - distance.x, pos.y - distance.y, pos.z - distance.z);
+        transform.position = new Vector3(pos.x - offset.x, pos.y - offset.y, pos.z - offset.z);
+
+        if(currentSelected != lastSelected)
+        {
+            soundBox.PlayOneShot(selectSE, 1f);
+        }
 
         //バックアップ
         lastSelected = currentSelected;
     }
 
-    static public void StartSelect()
+    public void StartSelect()
     {
         GameObject selectArrow = FindObjectOfType<SelectArrow>().gameObject;
         selectArrow.GetComponent<Image>().enabled = true;
+        eventSystem.enabled = true;
         isStartSelect = true;
     }
 }
