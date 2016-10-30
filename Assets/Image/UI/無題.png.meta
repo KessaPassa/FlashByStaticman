@@ -1,9 +1,12 @@
 fileFormatVersion: 2
-guid: 8a19d4e44648f814db27dab5ff5d47dc
-timeCreated: 1477839408
+guid: 2e2c081ff61bac948ac859f20ec44876
+timeCreated: 1477847093
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: "\u7121\u984C_0"
+    21300002: "\u7121\u984C_1"
+    21300004: "\u7121\u984C_2"
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,7 +41,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,7 +54,46 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "\u7121\u984C_0"
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 156
+        width: 167
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "\u7121\u984C_1"
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 83
+        width: 165
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "\u7121\u984C_2"
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 17
+        width: 165
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

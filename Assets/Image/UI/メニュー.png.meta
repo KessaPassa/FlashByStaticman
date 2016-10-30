@@ -1,9 +1,11 @@
 fileFormatVersion: 2
-guid: 8a19d4e44648f814db27dab5ff5d47dc
-timeCreated: 1477839408
+guid: 952781abf5bb91a43bb76d5b76fdc8eb
+timeCreated: 1477849955
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: "\u30E1\u30CB\u30E5\u30FC_0"
+    21300002: "\u30E1\u30CB\u30E5\u30FC_1"
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,7 +40,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,7 +53,33 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "\u30E1\u30CB\u30E5\u30FC_0"
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 105
+        width: 225
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "\u30E1\u30CB\u30E5\u30FC_1"
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 18
+        width: 221
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

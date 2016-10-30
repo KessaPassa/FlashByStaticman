@@ -7,9 +7,13 @@ public class Tutorial : MonoBehaviour {
     private int leftCnt = 0;
     private int rightCnt = 0;
     private bool wait = false;
+    private AudioSource soundBox;
+    public AudioClip selectSE;
+    public AudioClip cancelSE;
 	
 	void Start () {
         fadeManager = FindObjectOfType<FadeManager>();
+        soundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
 	}
 	
 	
@@ -22,12 +26,25 @@ public class Tutorial : MonoBehaviour {
         {
             rightCnt = 0;
         }
+
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            OnRightButton();
+        }
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            OnLeftButton();
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace)){
+            OnReturnButton();
+        }
     }
 
     public void OnRightButton()
     {
         if (!wait && fadeManager.isFadeFinished && 0 <= rightCnt && rightCnt < 2)
         {
+            soundBox.PlayOneShot(selectSE, 1f);
             rightCnt++;
             leftCnt--;
             wait = true;
@@ -40,6 +57,7 @@ public class Tutorial : MonoBehaviour {
     {
         if (!wait && fadeManager.isFadeFinished && 0 <= leftCnt && leftCnt < 2)
         {
+            soundBox.PlayOneShot(selectSE, 1f);
             rightCnt--;
             leftCnt++;
             wait = true;
@@ -55,7 +73,11 @@ public class Tutorial : MonoBehaviour {
 
     public void OnReturnButton()
     {
-        fadeManager.fadeMode = FadeManager.FadeMode.close;
-        fadeManager.FadeStart("Title");
+        if (!fadeManager.isFading)
+        {
+            soundBox.PlayOneShot(cancelSE, 1f);
+            fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart("Title");
+        }
     }
 }

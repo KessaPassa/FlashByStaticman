@@ -20,6 +20,11 @@ public class SelectArrow : MonoBehaviour {
     }
 
     void Start () {
+        SelectedStart();
+    }
+
+    public void SelectedStart()
+    {
         eventSystem = FindObjectOfType<EventSystem>();
         eventSystem.enabled = false;
         GetComponent<Image>().enabled = false; //初期状態ではカーソルを見せない
@@ -28,7 +33,12 @@ public class SelectArrow : MonoBehaviour {
         //Cursor.visible = false; //カーソル非表示
     }
 
-	void Update () {
+    void Update () {
+        SelectedUpdate();
+    }
+
+    public void SelectedUpdate()
+    {
         if (isStartSelect)
         {
             //クリックしてnullになってしまったら
@@ -74,7 +84,7 @@ public class SelectArrow : MonoBehaviour {
         lastSelected = currentSelected;
     }
 
-     public void StartSelect()
+    public void StartSelect()
     {
         GameObject selectArrow = FindObjectOfType<SelectArrow>().gameObject;
         selectArrow.GetComponent<Image>().enabled = true;

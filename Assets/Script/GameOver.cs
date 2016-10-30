@@ -10,6 +10,7 @@ public class GameOver : MonoBehaviour {
     private bool isOnce = false;
     public Image retryImage;
     private Text retryComment;
+    private Image retryStick;
     private bool isFadeStart = false;
     private float alpha;
     public float fadeSpeed = 0.5f;
@@ -31,12 +32,14 @@ public class GameOver : MonoBehaviour {
         spriteRenderer = GetComponent<SpriteRenderer>();
         //baseSprite = image.sprite;
         retryComment = retryImage.transform.FindChild("Text").GetComponent<Text>();
+        retryStick = retryImage.transform.FindChild("Image").GetComponent<Image>();
         staticManager = FindObjectOfType<StaticManager>();
         selectArrow = FindObjectOfType<SelectArrow>();
 
         //見えないようにしておく
         retryImage.color = new Color(255, 255, 255, 0);
         retryComment.color = new Color(50, 50, 50, 0);
+        retryStick.color = new Color(255, 255, 255, 0);
 
 
         continueButton.gameObject.SetActive(false);
@@ -51,6 +54,7 @@ public class GameOver : MonoBehaviour {
             alpha += Time.deltaTime * fadeSpeed;
             retryImage.color = new Color(255, 255, 255, alpha);
             retryComment.color = new Color(0.2f, 0.2f, 0.2f, alpha);
+            retryStick.color = new Color(255, 255, 255, alpha);
         }
 
         if(alpha >= 1)

@@ -9,9 +9,8 @@ public class Title : MonoBehaviour {
     private AudioSource soundBox;
     public AudioClip decitionSE;
     public AudioClip cancelSE;
-    public Button easyButton;
-    public Button normalButton;
-    public Button hardButton;
+    public GameObject allButton;
+    public GameObject allImage;
     private int isOnce = 1;
 
     void Start () {
@@ -31,9 +30,8 @@ public class Title : MonoBehaviour {
         
         if (Input.GetKeyDown(KeyCode.Backspace) && titleSelect.isStartSelect)
         {
-            easyButton.enabled = false;
-            normalButton.enabled = false;
-            hardButton.enabled = false;
+            allButton.gameObject.SetActive(false);
+            allImage.gameObject.SetActive(false);
 
             soundBox.PlayOneShot(cancelSE, 1f);
             titleSelect.isOnChild = false;
@@ -46,9 +44,8 @@ public class Title : MonoBehaviour {
     {
         if (fadeManager.isFadeFinished)
         {
-            easyButton.enabled = true;
-            normalButton.enabled = true;
-            hardButton.enabled = true;
+            allButton.gameObject.SetActive(true);
+            allImage.gameObject.SetActive(true);
 
             soundBox.PlayOneShot(decitionSE, 1f);
             titleSelect.isOnChild = true;
