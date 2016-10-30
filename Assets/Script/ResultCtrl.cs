@@ -14,6 +14,7 @@ public class ResultCtrl : MonoBehaviour
     private MoveStage moveStage;        //敵を撃破時に移動制御するscript
     private FadeManager fadeManager;    //フェードを管理するスクリプト
     private FlashingManager flashingManager;
+    private StaticManager staticManager;
 
     //コンポーネント関係
     private AudioSource SoundBox;       //PlayOneShot用の空箱
@@ -67,6 +68,7 @@ public class ResultCtrl : MonoBehaviour
         moveStage = FindObjectOfType<MoveStage>();
         fadeManager = FindObjectOfType<FadeManager>();
         flashingManager = FindObjectOfType<FlashingManager>();
+        staticManager = FindObjectOfType<StaticManager>();
 
         SoundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
         anim = GameObject.FindWithTag("AnimCtrl").GetComponent<Animator>();
@@ -342,6 +344,27 @@ public class ResultCtrl : MonoBehaviour
     {
         enemyStatus.HP -= playerStatus.win;
         SoundBox.PlayOneShot(strong, 3f); //効果音を鳴らす
+
+        Vector2 diff = deadLine.transform.position - battleRSP.appearHand[0].transform.position;
+        float castedDiff = -Camera.main.ScreenToWorldPoint(diff).x;
+
+        float coefficient = 1;
+        switch (staticManager.diffycultyMode)
+        {
+            case StaticManager.DifficultyMode.Easy:
+                coefficient = 10;
+                break;
+
+            case StaticManager.DifficultyMode.Normal:
+                coefficient = 20;
+                break;
+
+            case StaticManager.DifficultyMode.Hard:
+                coefficient = 40;
+                break;
+        }
+        castedDiff *= coefficient;
+        StaticManager.AddScore((int)castedDiff);
     }
 
     public void Drow()

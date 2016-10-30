@@ -3,10 +3,12 @@ using System.Collections;
 
 public class Title : MonoBehaviour {
     private FadeManager fadeManager;
-    
+    private AudioSource soundBox;
+    public AudioClip decitionSE;
 
 	void Start () {
         fadeManager = FindObjectOfType<FadeManager>();
+        soundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
         SelectArrow.StartSelect();
     }
 	
@@ -19,6 +21,8 @@ public class Title : MonoBehaviour {
     {
         if (fadeManager.isFadeFinished)
         {
+            SelectArrow.isStartSelect = false;
+            soundBox.PlayOneShot(decitionSE, 1f);
             fadeManager.fadeMode = FadeManager.FadeMode.close;
             fadeManager.FadeStart(3);
         }
@@ -28,6 +32,8 @@ public class Title : MonoBehaviour {
     {
         if (fadeManager.isFadeFinished)
         {
+            SelectArrow.isStartSelect = false;
+            soundBox.PlayOneShot(decitionSE, 1f);
             fadeManager.fadeMode = FadeManager.FadeMode.close;
             fadeManager.FadeStart("Tutorial");
         }

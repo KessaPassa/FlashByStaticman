@@ -22,7 +22,8 @@ public class EnemyStatus : MonoBehaviour
     private StaticManager staticManager;
     private bool isDied = false;                        //死んだかどうか
     private float fadeSpeed = 1f;                       //死んだときにフェードするスピード
-    public int score;
+    public int winScore;
+    public int clearBonus;
 
     public enum LerpMode
     {
@@ -61,7 +62,7 @@ public class EnemyStatus : MonoBehaviour
         win *= coefficient;
         drow *= coefficient;
         //lose *= coefficient;
-        score *= (int)(coefficient * 2f);
+        clearBonus *= (int)(coefficient * 4f);
 
         enemyCanvas = GameObject.FindWithTag("EnemyCanvas").GetComponent<Canvas>();
         HPbarPrefab = Instantiate(Resources.Load("EnemyHPbar")) as GameObject; //HPバー生成
@@ -93,12 +94,14 @@ public class EnemyStatus : MonoBehaviour
 
             if(!isDied && GetComponent<SpriteRenderer>().color.a <= 0)
             {
-                //死んだらスコアを加算
                 if (resultCtrl.scoreTimer > 10f)
                 {
-                    score *= (int)(resultCtrl.scoreTimer / 10f);
+                    StaticManager.AddScore((int)(clearBonus * resultCtrl.scoreTimer / 10f));
                 }
-                StaticManager.AddScore(score);
+                else
+                {
+                    StaticManager.AddScore(clearBonus);
+                }
                 resultCtrl.EnemyDead();
                 isDied = true;
                 GetComponent<EnemyStatus>().enabled = false;

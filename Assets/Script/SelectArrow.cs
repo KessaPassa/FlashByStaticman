@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 public class SelectArrow : MonoBehaviour {
     public Button[] selectButton;       //選択ボタン
     private EventSystem eventSystem;    //Button.Select()を使うのに必要
+    public AudioSource soundBox;       //効果音ようのAudioSourceの空箱
+    public AudioClip selectSE;          //選択ボタンの効果音
     public Vector3 distance;            //カーソルの位置調整
     private GameObject currentSelected; //現在取得しているボタン
     private GameObject lastSelected;    //最後に正常に取得したボタン, バックアップ用
@@ -57,6 +59,11 @@ public class SelectArrow : MonoBehaviour {
         //カーソルの位置調整
         Vector3 pos = newPos.transform.position;
         transform.position = new Vector3(pos.x - distance.x, pos.y - distance.y, pos.z - distance.z);
+
+        if(currentSelected != lastSelected)
+        {
+            soundBox.PlayOneShot(selectSE, 1f);
+        }
 
         //バックアップ
         lastSelected = currentSelected;
