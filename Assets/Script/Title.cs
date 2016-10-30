@@ -13,6 +13,17 @@ public class Title : MonoBehaviour {
     public GameObject allImage;
     private int isOnce = 1;
 
+    //裏コード用
+    private bool s = false;
+    private bool t = false;
+    private bool a = false;
+    private bool t2 = false;
+    private bool i = false;
+    private bool c = false;
+    private bool isSwitch = false;
+    private float timer = 0f;
+    public Text hiddenText;
+
     void Start () {
         fadeManager = FindObjectOfType<FadeManager>();
         staticManager = FindObjectOfType<StaticManager>();
@@ -22,6 +33,8 @@ public class Title : MonoBehaviour {
 	
 	
 	void Update () {
+        HiddenCmd();
+
         if (fadeManager.isFadeFinished && isOnce == 1)
         {
             isOnce++;
@@ -99,5 +112,78 @@ public class Title : MonoBehaviour {
         staticManager.ChangeMode(StaticManager.DifficultyMode.Hard);
         fadeManager.fadeMode = FadeManager.FadeMode.close;
         fadeManager.FadeStart(5);
+    }
+
+    void HiddenText()
+    {
+        hiddenText.enabled = false;
+    }
+
+    void HiddenCmd()
+    {
+        if (StaticManager.isHiddenCmd && !isSwitch)
+        {
+            isSwitch = true;
+            hiddenText.enabled = true;
+            Invoke("HiddenText", 4f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            s = true;
+            print("1");
+        }
+        else if (Input.GetKeyDown(KeyCode.T) && s)
+        {
+            t = true;
+            print("2");
+        }
+        else if (Input.GetKeyDown(KeyCode.A) && t)
+        {
+            a = true;
+            t = false;
+            print("3");
+        }
+        if (Input.GetKeyDown(KeyCode.T) && a)
+        {
+            t2 = true;
+            print("4");
+        }
+        else if (Input.GetKeyDown(KeyCode.I) && t2)
+        {
+            i = true;
+            print("5");
+        }
+        else if (Input.GetKeyDown(KeyCode.C) && i)
+        {
+            StaticManager.isHiddenCmd = true;
+            print("static" + StaticManager.isHiddenCmd);
+        }
+        else
+        {
+            if (timer >= 5f)
+            {
+                timer = 0f;
+                TooLate();
+            }
+        }
+        if (Input.anyKeyDown)
+        {
+            timer = 0f;
+        }
+        timer += Time.deltaTime;
+    }
+
+    void TooLate()
+    {
+        if (!StaticManager.isHiddenCmd)
+        {
+            s = false;
+            t = false;
+            a = false;
+            t2 = false;
+            i = false;
+            c = false;
+        }
     }
 }

@@ -48,8 +48,8 @@ public class Tutorial : MonoBehaviour {
             rightCnt++;
             leftCnt--;
             wait = true;
-            iTween.MoveTo(slide, iTween.Hash("x", slide.transform.position.x - 18f, "timje", 2f));
-            Invoke("Wait", 0.5f);
+            iTween.MoveTo(slide, iTween.Hash("x", slide.transform.position.x - 18f, "timje", 0.5f));
+            Invoke("Wait", 1f);
         }
     }
 
@@ -61,8 +61,8 @@ public class Tutorial : MonoBehaviour {
             rightCnt--;
             leftCnt++;
             wait = true;
-            iTween.MoveTo(slide, iTween.Hash("x", slide.transform.position.x + 18f, "timje", 2f));
-            Invoke("Wait", 0.5f);
+            iTween.MoveTo(slide, iTween.Hash("x", slide.transform.position.x + 18f, "timje", 0.5f));
+            Invoke("Wait", 1f);
         }
     }
 

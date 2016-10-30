@@ -15,12 +15,14 @@ public class Clear : MonoBehaviour
     public Text pushText;
     public Text scoreText;
     private float rollSpeed;
+    private StaticManager staticManager;
 
     void Start()
     {
         fadeManager = FindObjectOfType<FadeManager>();
         soundBox = GameObject.Find("SoundBox").GetComponent<AudioSource>();
         rollSpeed = StaticManager.GetResultSocre() / 5f;
+        staticManager = FindObjectOfType<StaticManager>();
     }
 
     void Update()
@@ -44,7 +46,12 @@ public class Clear : MonoBehaviour
                 soundBox.PlayOneShot(clapSE, 3f);
                 scoreText.text = StaticManager.GetResultSocre().ToString();
                 fadeManager.fadeMode = FadeManager.FadeMode.close;
-                fadeManager.FadeStart("Title", fadeSpeed: 0.3f, waitForSeconds: 4f);
+
+                if(staticManager.difficultyMode == StaticManager.DifficultyMode.Hard)
+                {
+
+                }
+                fadeManager.FadeStart("HiddenStage", fadeSpeed: 0.3f, waitForSeconds: 4f);
             }
         }
     }
