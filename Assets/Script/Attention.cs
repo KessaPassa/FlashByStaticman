@@ -13,6 +13,7 @@ public class Attention : MonoBehaviour {
         waitTime = timer;
 
         StaticManager.isHiddenCmd = false;
+        StaticManager.SetIndex(-1);
     }
 	
 	

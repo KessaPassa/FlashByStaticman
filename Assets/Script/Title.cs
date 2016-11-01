@@ -78,6 +78,17 @@ public class Title : MonoBehaviour {
         }
     }
 
+    public void OnStaffRollButton()
+    {
+        if (fadeManager.isFadeFinished)
+        {
+            titleSelect.isStartSelect = false;
+            soundBox.PlayOneShot(decitionSE, 1f);
+            fadeManager.fadeMode = FadeManager.FadeMode.close;
+            fadeManager.FadeStart("StaffRoll");
+        }
+    }
+
     //public void OnQuitButton()
     //{
     //    if (fadeManager.isFadeFinished)
@@ -92,6 +103,7 @@ public class Title : MonoBehaviour {
         titleSelect.isStartSelect = false;
         soundBox.PlayOneShot(decitionSE, 1f);
         staticManager.ChangeMode(StaticManager.DifficultyMode.Easy);
+        StaticManager.SetIndex(3);
         fadeManager.fadeMode = FadeManager.FadeMode.close;
         fadeManager.FadeStart(3);
     }
@@ -101,6 +113,7 @@ public class Title : MonoBehaviour {
         titleSelect.isStartSelect = false;
         soundBox.PlayOneShot(decitionSE, 1f);
         staticManager.ChangeMode(StaticManager.DifficultyMode.Normal);
+        StaticManager.SetIndex(4);
         fadeManager.fadeMode = FadeManager.FadeMode.close;
         fadeManager.FadeStart(4);
     }
@@ -110,6 +123,7 @@ public class Title : MonoBehaviour {
         titleSelect.isStartSelect = false;
         soundBox.PlayOneShot(decitionSE, 1f);
         staticManager.ChangeMode(StaticManager.DifficultyMode.Hard);
+        StaticManager.SetIndex(5);
         fadeManager.fadeMode = FadeManager.FadeMode.close;
         fadeManager.FadeStart(5);
     }
