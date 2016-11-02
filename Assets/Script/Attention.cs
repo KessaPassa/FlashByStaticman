@@ -11,6 +11,9 @@ public class Attention : MonoBehaviour {
         fadeManager = FindObjectOfType<FadeManager>();
         Cursor.visible = false; //カーソル非表示
         waitTime = timer;
+
+        StaticManager.isHiddenCmd = false;
+        StaticManager.SetIndex(-1);
     }
 	
 	

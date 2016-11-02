@@ -85,6 +85,15 @@ public class ResultCtrl : MonoBehaviour
 
     void Update()
     {
+        if (staticManager.difficultyMode == StaticManager.DifficultyMode.Hard)
+        {
+            isOnHidden = true;
+        }else
+        {
+            isOnHidden = false;
+        }
+        OnHidden();
+
         //ゲームが終わっていれば何もしない
         if (isGameEnd)
         {
@@ -115,7 +124,6 @@ public class ResultCtrl : MonoBehaviour
         else
         {
             IsPlayGame();   //ゲームが動いているか
-            //OnHidden();
 
             float pingpong = Mathf.PingPong(Time.time * 1.2f, 1f); //pingpong関数で0と1を行ったり来たり
             startAtClick.color = new Color(startAtClick.color.r, startAtClick.color.g, startAtClick.color.b, pingpong); //点めつするようにする
@@ -323,11 +331,11 @@ public class ResultCtrl : MonoBehaviour
     //敵の次の手を隠す
     void OnHidden()
     {
-        //スペースを押したらHiddenを実行する(プロトタイプ)
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isOnHidden = !isOnHidden; //ボタン1つでオン・オフ
-        }
+        ////スペースを押したらHiddenを実行する(プロトタイプ)
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    isOnHidden = !isOnHidden; //ボタン1つでオン・オフ
+        //}
         //trueなら1つ目以外を隠す
         if (isOnHidden)
         {
@@ -388,6 +396,15 @@ public class ResultCtrl : MonoBehaviour
 
         playerAnim.DoingAnim("Damaged");
         enemys[moveStage.winCounter].GetComponent<Animator>().SetTrigger("Attack");
+
+        try
+        {
+            enemys[moveStage.winCounter].transform.FindChild("Effect").GetComponent<Animator>().SetTrigger("Attack");            
+        }
+        catch (System.Exception e)
+        {
+
+        }
         scoreTimer -= 1f;
     }
 

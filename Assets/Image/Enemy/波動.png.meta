@@ -1,9 +1,12 @@
 fileFormatVersion: 2
-guid: 33a9eb2c91d9be14486c7ab41883eed3
-timeCreated: 1477855004
+guid: 69107a78ec920b44e92daea80c14c6bf
+timeCreated: 1477855328
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: "\u6CE2\u52D5_2"
+    21300002: "\u6CE2\u52D5_5"
+    21300004: "\u6CE2\u52D5_6"
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -38,7 +41,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,7 +54,46 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "\u6CE2\u52D5_2"
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 188
+        width: 228
+        height: 141
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "\u6CE2\u52D5_5"
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 19
+        width: 129
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "\u6CE2\u52D5_6"
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 8
+        width: 157
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

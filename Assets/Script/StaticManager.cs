@@ -3,8 +3,10 @@ using System.Collections;
 
 public class StaticManager : MonoBehaviour {
     static public int resultScore = 0;  //画面に表示するスコア
-    //static public int totalScore = 0;   //クリアボーナスなどを加算した最終的なスコアx
+    //static public int totalScore = 0;   //クリアボーナスなどを加算した最終的なスコア
     //static public int clearBonus = 0;
+    static public bool isHiddenCmd = false;
+    static public int index = -1;
 
     public enum DifficultyMode
     {
@@ -54,6 +56,16 @@ public class StaticManager : MonoBehaviour {
     static public int GetResultSocre()
     {
         return resultScore;
+    }
+
+    static public void SetIndex(int tmp)
+    {
+        index = tmp;
+    }
+
+    static public int GetIndex()
+    {
+        return index;
     }
 
     //static public int GetTotalScore()

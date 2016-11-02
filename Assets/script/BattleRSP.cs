@@ -17,12 +17,26 @@ public class BattleRSP : MonoBehaviour
     private float startTime = -1f;      //線形補間の時間初期値
     public float offset;                //acceptLineの微調整 プラスで右に、マイナスで左に動く
 
+    //裏コード用
+    public Sprite[] rsp;
+    private Sprite[,] differenceHand = new Sprite[3,3];
+
 
     void Start()
     {
         resultCtrl = FindObjectOfType<ResultCtrl>();
         lerpManager = FindObjectOfType<LerpManager>();
         appearHand = new Image[originHand.Length];
+
+        int cnt = 0;
+        for(int i=0; i<3; i++)
+        {
+            for(int j=0; j< 3; j++)
+            {
+                differenceHand[i, j] = rsp[cnt];
+                cnt++;
+            }
+        }
     }
 
     public void StartGame()
@@ -163,22 +177,52 @@ public class BattleRSP : MonoBehaviour
     {
         Sprite hand = null;
         int enemyHand = Random.Range(0, 3);
-        switch (enemyHand)
+        if (!StaticManager.isHiddenCmd)
         {
-            case 0:
-                hand = rock;
-                break;
+            switch (enemyHand)
+            {
+                case 0:
+                    hand = rock;
+                    break;
 
-            case 1:
-                hand = scissors;
-                break;
+                case 1:
+                    hand = scissors;
+                    break;
 
-            case 2:
-                hand = paper;
-                break;
+                case 2:
+                    hand = paper;
+                    break;
+            }
+        }
+        //じゃんけんの手を3色にする
+        else
+        {
+            switch (enemyHand)
+            {
+                case 0:
+                    rock = RondomRSP(enemyHand);
+                    hand = rock;
+                    break;
+
+                case 1:
+                    scissors = RondomRSP(enemyHand);
+                    hand = scissors;
+                    break;
+
+                case 2:
+                    paper = RondomRSP(enemyHand);
+                    hand = paper;
+                    break;
+            }
         }
 
         return hand;
+    }
+
+    Sprite RondomRSP(int enemyHand)
+    {
+        int rnd = Random.Range(0, 3);
+        return differenceHand[enemyHand, rnd];
     }
 
     //手前を消し、1つずつずらし、最後尾に手を追加する

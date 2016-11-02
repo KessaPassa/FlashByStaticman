@@ -97,25 +97,10 @@ public class GameOver : MonoBehaviour {
     {
         if (!fadeManager.isFading)
         {
-            int index = -1;
-            switch (staticManager.difficultyMode)
-            {
-                case StaticManager.DifficultyMode.Easy:
-                    index = 3;
-                    break;
-
-                case StaticManager.DifficultyMode.Normal:
-                    index = 4;
-                    break;
-
-                case StaticManager.DifficultyMode.Hard:
-                    index = 5;
-                    break;
-            }
-
+            selectArrow.isStartSelect = false;
             soundBox.PlayOneShot(decitionSE, 1f);
             fadeManager.fadeMode = FadeManager.FadeMode.close;
-            fadeManager.FadeStart(index);
+            fadeManager.FadeStart(StaticManager.GetIndex());
         }
     }
 
@@ -123,6 +108,7 @@ public class GameOver : MonoBehaviour {
     {
         if (!fadeManager.isFading)
         {
+            selectArrow.isStartSelect = false;
             soundBox.PlayOneShot(decitionSE, 1f);
             fadeManager.fadeMode = FadeManager.FadeMode.close;
             fadeManager.FadeStart("Title");
