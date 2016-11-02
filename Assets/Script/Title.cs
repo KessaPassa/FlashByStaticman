@@ -145,28 +145,23 @@ public class Title : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S))
         {
             s = true;
-            print("1");
         }
         else if (Input.GetKeyDown(KeyCode.T) && s)
         {
             t = true;
-            print("2");
         }
         else if (Input.GetKeyDown(KeyCode.A) && t)
         {
             a = true;
             t = false;
-            print("3");
         }
         if (Input.GetKeyDown(KeyCode.T) && a)
         {
             t2 = true;
-            print("4");
         }
         else if (Input.GetKeyDown(KeyCode.I) && t2)
         {
             i = true;
-            print("5");
         }
         else if (Input.GetKeyDown(KeyCode.C) && i)
         {
